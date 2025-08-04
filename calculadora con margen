@@ -1,1 +1,16 @@
 
+a = int (input("Ingrese primer número: "))
+B = int (input("Ingrese segundo número: "))
+
+sm = a + B
+rt = a - B
+mt = a * B
+dt = a / B
+print("#############################################"      )
+print("#" "Suma:", sm                                      )
+print("#" "Resta:", rt                                     )
+print("#" "Multiplicación:", mt                            )
+print("#" "División:", dt                                  )
+print("#" "ESTA CALCULADORA ESTA HECHA POR KEVIN LARROTA"  )
+print("#############################################"      )
+
