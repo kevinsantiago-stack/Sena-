@@ -1,0 +1,19 @@
+animales = {"perro", "gato", "loro", "gato", "pez"}
+
+print("Animales en el conjunto:", animales)
+
+animales.add("conejo")
+print("Después de agregar conejo:", animales)
+
+animales.add("gato")
+print("Después de intentar agregar 'gato' otra vez:", animales)
+
+animales.remove("pez")
+print("Después de eliminar pez:", animales)
+
+if "perro" in animales:
+    print("¡El perro sí está en el conjunto!")
+else:
+    print("El perro no está en el conjunto...")
+
+print("Cantidad total de animales:", len(animales))
