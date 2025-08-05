@@ -1,0 +1,11 @@
+nombre = "kevin"
+saludo = "HOLA, " + nombre + "!"
+print(saludo)
+
+
+risa = "JA" * 5
+print("Risa:", risa)
+
+
+frase = "la" + " " + "vida" + " " + "genial" + " " + "es" + " " + "genial"
+print(frase)
