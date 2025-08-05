@@ -1,0 +1,15 @@
+numero = 20
+print("Número inicial:", numero)
+
+
+numero += 10
+print("Después de sumar 10:", numero)
+
+numero -= 5
+print("Después de restar 5:", numero)
+
+numero *= 2
+print("Después de multiplicar por 2:", numero)
+
+numero /= 5
+print("Después de dividir entre 5:", numero)
