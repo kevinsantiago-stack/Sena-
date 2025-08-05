@@ -1,0 +1,23 @@
+compras = ["pan", "leche", "huevos", "arroz"]
+
+print("Lista original:", compras)
+
+compras.append("café")
+print("Después de agregar café:", compras)
+
+compras.insert(2, "frutas") #en python de cuenta desde 0
+print("Después de insertar frutas en la posición 2:", compras)
+
+compras.remove("leche")
+print("Después de eliminar leche:", compras)
+
+compras.sort()
+print("Lista ordenada alfabéticamente:", compras)
+
+producto = "arroz"
+if producto in compras:
+    print(f"¡{producto} sí está en la lista!")
+else:
+    print(f"{producto} no está en la lista...")
+
+print("Total de productos en la lista:", len(compras))
