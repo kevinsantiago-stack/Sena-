@@ -1,9 +1,0 @@
-colores = ("rojo", "verde", "azul")
-
-print("Colores disponibles:", colores)
-
-print("Primer color:", colores[0])
-print("Segundo color:", colores[1])
-print("Tercer color:", colores[2])
-#en `python se cuenta desde 0,1,2 ect.`
-print("Total de colores:", len(colores))
