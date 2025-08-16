@@ -1,8 +1,0 @@
-frutas = ["manzana", "pera", "uva", "banana"]
-
-fruta = input("Escribe el nombre de una fruta: ").lower()
-
-if fruta in frutas:
-    print("¡Sí, la fruta está en la lista!")
-else:
-    print("No... esa fruta no está en la lista.")
