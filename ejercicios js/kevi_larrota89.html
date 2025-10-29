@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Estado del Agua</title>
+  <style>
+    body{font-family:Arial;padding:20px;max-width:400px;margin:auto}
+    input,button{padding:8px;width:100%;margin:6px 0;box-sizing:border-box}
+  </style>
+</head>
+<body>
+  <h2>Estado del Agua según Temperatura</h2>
+
+  <input id="temp" type="number" placeholder="Ingresa la temperatura (°C)">
+  <button id="btn">Determinar</button>
+
+  <p id="out"></p>
+
+  <script>
+    const temp=document.getElementById('temp')
+    const btn=document.getElementById('btn')
+    const out=document.getElementById('out')
+
+    btn.onclick=()=>{
+      const t=Number(temp.value)
+      const estado=t<=0?"sólida":t<100?"líquida":"gaseosa"
+      out.textContent='El estado del agua es: '+estado
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de IMC</title>
+</head>
+<body>
+  <h2>Calculadora de IMC (Índice de Masa Corporal)</h2>
+  <p>Esta herramienta calcula tu IMC usando la fórmula: <br><strong>IMC = peso (kg) ÷ altura² (m²)</strong></p>
+
+  <button onclick="calcularIMC()">Calcular IMC</button>
+
+  <script>
+    
+    function calcularIMC() {
+
+      let peso = parseFloat(prompt("Ingrese su peso en kilogramos (kg):"));
+
+      let altura = parseFloat(prompt("Ingrese su altura en metros (m):"));
+
+      if (isNaN(peso) || isNaN(altura) || peso <= 0 || altura <= 0) {
+        alert("Por favor, ingrese valores válidos para peso y altura.");
+      } else {
+        let imc = peso / Math.pow(altura, 2);
+
+        alert("Su IMC es: " + imc.toFixed(2));
+
+        if (imc < 18.5) {
+          alert("Estado: Bajo peso");
+        } else if (imc < 24.9) {
+          alert("Estado: Peso normal");
+        } else if (imc < 29.9) {
+          alert("Estado: Sobrepeso");
+        } else {
+          alert("Estado: Obesidad");
+        }
+      }
+    }
+  </script>
+</body>
+</html>

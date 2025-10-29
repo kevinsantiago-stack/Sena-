@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Frecuencia de Elementos</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f9fafb;color:#111827;padding:30px}
+    .card{max-width:480px;margin:auto;background:white;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+    input,button{width:100%;padding:10px;margin:6px 0;border:1px solid #cbd5e1;border-radius:6px}
+    button{background:#2563eb;color:white;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    #resultado{margin-top:15px;font-weight:bold;white-space:pre-line}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Frecuencia de Elementos</h2>
+    <p>Ingrese elementos separados por comas:</p>
+    <input type="text" id="elementos" placeholder="Ejemplo: manzana, pera, manzana, uva">
+    <button onclick="contarFrecuencia()">Contar</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function contarFrecuencia(){
+      const entrada=document.getElementById("elementos").value;
+      const elementos=entrada.split(",").map(e=>e.trim()).filter(e=>e!=="");
+      if(elementos.length===0){
+        resultado.textContent="Ingrese al menos un elemento válido.";
+        return;
+      }
+      const conteo={};
+      elementos.forEach(e=>conteo[e]=(conteo[e]||0)+1);
+      let texto="Frecuencia de elementos:\n";
+      for(const [clave,valor] of Object.entries(conteo)){
+        texto+=`${clave}: ${valor}\n`;
+      }
+      resultado.textContent=texto;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Validador Luhn (Tarjetas)</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f8fafc;color:#0f1724;padding:24px}
+    .card{max-width:520px;margin:20px auto;background:white;padding:18px;border-radius:10px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+    h2{margin:0 0 10px}
+    input{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;margin:8px 0;box-sizing:border-box}
+    button{padding:10px 14px;border-radius:8px;border:none;background:#2563eb;color:white;cursor:pointer}
+    button.secondary{background:#10b981;margin-left:8px}
+    #mensaje{margin-top:12px;padding:12px;border-radius:8px;font-family:monospace}
+    .ok{background:#ecfdf5;color:#065f46}
+    .bad{background:#ffefef;color:#7f1d1d}
+    .small{color:#64748b;font-size:13px}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Algoritmo de Luhn</h2>
+    <div class="small">Pega el número de tarjeta (con o sin espacios) para validar el checksum.</div>
+    <input id="numero" placeholder="Ej: 4111 1111 1111 1111" />
+    <div class="row" style="margin-top:8px">
+      <button onclick="validar()">Validar</button>
+      <button class="secondary" onclick="formatear()">Formatear</button>
+      <button style="background:#ef4444" onclick="limpiar()">Borrar</button>
+    </div>
+    <div id="mensaje"></div>
+  </div>
+
+  <script>
+    function limpiar(){
+      document.getElementById('numero').value='';
+      document.getElementById('mensaje').textContent='';
+      document.getElementById('mensaje').className='';
+    }
+
+    function formatear(){
+      const v=document.getElementById('numero').value.replace(/\D/g,'');
+      if(!v){mensaje.textContent='Ingresa números válidos.';mensaje.className='bad';return;}
+      const grupos=v.match(/.{1,4}/g)||[v];
+      document.getElementById('numero').value=grupos.join(' ');
+      mensaje.textContent='';
+      mensaje.className='';
+    }
+
+    function detectarIssuer(num){
+      if(/^4[0-9]{12}(?:[0-9]{3})?$/.test(num)) return 'Visa';
+      if(/^(5[1-5][0-9]{14}|2(2[2-9]|[3-6][0-9]|7[01]|720)[0-9]{12})$/.test(num)) return 'MasterCard';
+      if(/^3[47][0-9]{13}$/.test(num)) return 'American Express';
+      if(/^6(?:011|5[0-9]{2})[0-9]{12}$/.test(num)) return 'Discover';
+      return 'Desconocido';
+    }
+
+    function luhnCheck(number){
+      const digits = number.split('').reverse().map(d=>parseInt(d,10));
+      let sum=0;
+      for(let i=0;i<digits.length;i++){
+        let val=digits[i];
+        if(i%2===1){
+          val = val*2;
+          if(val>9) val -= 9;
+        }
+        sum += val;
+      }
+      return sum % 10 === 0;
+    }
+
+    function maskNumber(n){
+      const clean=n.replace(/\D/g,'');
+      if(clean.length<=4) return clean;
+      const last=clean.slice(-4);
+      return '*'.repeat(clean.length-4)+last;
+    }
+
+    function validar(){
+      const raw=document.getElementById('numero').value;
+      const clean=raw.replace(/\D/g,'');
+      const mensaje=document.getElementById('mensaje');
+      if(!clean){
+        mensaje.textContent='Ingresa un número de tarjeta.';
+        mensaje.className='bad';
+        return;
+      }
+      if(clean.length < 12 || clean.length > 19){
+        mensaje.textContent='Longitud inválida para número de tarjeta.';
+        mensaje.className='bad';
+        return;
+      }
+      const valido = luhnCheck(clean);
+      const issuer = detectarIssuer(clean);
+      if(valido){
+        mensaje.textContent=`VÁLIDO — Emisor: ${issuer} — Número: ${maskNumber(clean)}`;
+        mensaje.className='ok';
+      } else {
+        mensaje.textContent=`INVÁLIDO — No pasó Luhn — Emisor probable: ${issuer}`;
+        mensaje.className='bad';
+      }
+    }
+  </script>
+</body>
+</html>

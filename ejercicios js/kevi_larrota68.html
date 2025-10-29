@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fibonacci Recursivo</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f9fafb;color:#111827;padding:24px}
+    .card{max-width:500px;margin:40px auto;background:white;padding:20px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,0.1)}
+    input,button{padding:10px;margin-top:10px;border-radius:8px;border:1px solid #d1d5db;font-size:16px}
+    button{background:#2563eb;color:white;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    #resultado{margin-top:15px;background:#f0fdf4;border-radius:8px;padding:10px;font-family:monospace;color:#064e3b}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Función Recursiva Fibonacci</h2>
+    <label for="numero">Ingresa un número:</label><br>
+    <input type="number" id="numero" min="0" placeholder="Ejemplo: 6"><br>
+    <button onclick="calcularFibonacci()">Calcular</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function fibonacci(n){
+      if(n===0) return 0;
+      if(n===1) return 1;
+      return fibonacci(n-1)+fibonacci(n-2);
+    }
+
+    function calcularFibonacci(){
+      const n=parseInt(document.getElementById('numero').value);
+      const res=document.getElementById('resultado');
+      if(isNaN(n)||n<0){
+        res.textContent="Por favor ingresa un número válido (mayor o igual a 0).";
+        res.style.background="#fee2e2";
+        res.style.color="#7f1d1d";
+        return;
+      }
+      const valor=fibonacci(n);
+      res.innerHTML=`El número Fibonacci en la posición ${n} es: <strong>${valor}</strong>`;
+      res.style.background="#f0fdf4";
+      res.style.color="#064e3b";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Formateador de Fechas</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f8fafc;color:#0f1724;padding:24px}
+    .card{max-width:520px;margin:20px auto;background:white;padding:18px;border-radius:10px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+    input,select{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;margin:8px 0;box-sizing:border-box}
+    button{padding:10px 14px;border-radius:8px;border:none;background:#2563eb;color:white;cursor:pointer}
+    #resultado{margin-top:12px;padding:10px;border-radius:8px;font-family:monospace;background:#ecfdf5;color:#065f46}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Formateador de Fechas</h2>
+    <input type="date" id="fecha">
+    <select id="formato">
+      <option value="dd/mm/yyyy">dd/mm/yyyy</option>
+      <option value="mm-dd-yyyy">mm-dd-yyyy</option>
+      <option value="yyyy.mm.dd">yyyy.mm.dd</option>
+      <option value="es">Formato Español (Ej: 29 de Octubre de 2025)</option>
+      <option value="en">Formato Inglés (Ej: October 29, 2025)</option>
+    </select>
+    <button onclick="formatearFecha()">Formatear</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function formatearFecha(){
+      const input=document.getElementById('fecha').value;
+      const formato=document.getElementById('formato').value;
+      const salida=document.getElementById('resultado');
+
+      if(!input){
+        salida.textContent="Por favor selecciona una fecha.";
+        salida.style.background="#ffefef";
+        salida.style.color="#7f1d1d";
+        return;
+      }
+
+      const fecha=new Date(input);
+      let resultado="";
+
+      const dia=String(fecha.getDate()).padStart(2,'0');
+      const mes=String(fecha.getMonth()+1).padStart(2,'0');
+      const año=fecha.getFullYear();
+
+      if(formato==="dd/mm/yyyy") resultado=`${dia}/${mes}/${año}`;
+      else if(formato==="mm-dd-yyyy") resultado=`${mes}-${dia}-${año}`;
+      else if(formato==="yyyy.mm.dd") resultado=`${año}.${mes}.${dia}`;
+      else if(formato==="es"){
+        const meses=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+        resultado=`${dia} de ${meses[fecha.getMonth()]} de ${año}`;
+      }
+      else if(formato==="en"){
+        const meses=["January","February","March","April","May","June","July","August","September","October","November","December"];
+        resultado=`${meses[fecha.getMonth()]} ${dia}, ${año}`;
+      }
+
+      salida.textContent=resultado;
+      salida.style.background="#ecfdf5";
+      salida.style.color="#065f46";
+    }
+  </script>
+</body>
+</html>

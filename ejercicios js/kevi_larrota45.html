@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Búsqueda en Array</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f8fafc;color:#111827;padding:30px}
+    .card{max-width:450px;margin:auto;background:white;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+    input{width:100%;padding:8px;margin:6px 0;border:1px solid #cbd5e1;border-radius:6px}
+    button{padding:8px 14px;background:#2563eb;color:white;border:none;border-radius:6px;cursor:pointer}
+    #resultado{margin-top:14px;font-weight:bold}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Búsqueda en Array</h2>
+    <p>Lista: [10, 20, 30, 40, 50]</p>
+    <input type="number" id="buscar" placeholder="Ingrese número a buscar">
+    <button onclick="buscarElemento()">Buscar</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    const numeros=[10,20,30,40,50];
+    function buscarElemento(){
+      const valor=parseInt(buscar.value);
+      const encontrado=numeros.includes(valor);
+      resultado.textContent=encontrado?`El número ${valor} está en la lista.`:`El número ${valor} no se encuentra.`;
+    }
+  </script>
+</body>
+</html>

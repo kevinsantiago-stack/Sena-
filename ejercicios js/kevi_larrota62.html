@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pares que Suman</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f9fafb;color:#111827;padding:30px}
+    .card{max-width:500px;margin:auto;background:white;padding:25px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+    input,button{width:100%;padding:10px;margin:8px 0;border:1px solid #d1d5db;border-radius:6px}
+    button{background:#2563eb;color:white;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    pre{background:#f3f4f6;padding:10px;border-radius:8px;overflow-x:auto}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Pares que Suman</h2>
+    <input type="text" id="numeros" placeholder="Ejemplo: 2,4,3,7,5,8">
+    <input type="number" id="objetivo" placeholder="Suma objetivo (Ej: 10)">
+    <button onclick="paresQueSuman()">Buscar Pares</button>
+    <pre id="resultado"></pre>
+  </div>
+
+  <script>
+    function paresQueSuman(){
+      const arr=document.getElementById("numeros").value.split(",").map(Number).filter(n=>!isNaN(n));
+      const objetivo=parseFloat(document.getElementById("objetivo").value);
+      if(arr.length===0||isNaN(objetivo)){document.getElementById("resultado").textContent="Ingresa datos válidos.";return;}
+      const pares=[];
+      for(let i=0;i<arr.length;i++){
+        for(let j=i+1;j<arr.length;j++){
+          if(arr[i]+arr[j]===objetivo)pares.push(`(${arr[i]}, ${arr[j]})`);
+        }
+      }
+      document.getElementById("resultado").textContent=pares.length>0?`Pares que suman ${objetivo}: ${pares.join(", ")}`:"No se encontraron pares.";
+    }
+  </script>
+</body>
+</html>

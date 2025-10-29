@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validación de Contraseña</title>
+</head>
+<body>
+  <h2>Validación de Contraseña</h2>
+  <p>Ingresa una contraseña y verifica si cumple con el mínimo de caracteres requeridos.</p>
+
+  <button onclick="validarContrasena()">Validar Contraseña</button>
+
+  <script>
+
+    function validarContrasena() {
+
+      let contrasena = prompt("Ingrese su contraseña:");
+      
+      if (!contrasena) {
+        alert("Debe ingresar una contraseña.");
+        return;
+      }
+
+      let longitud = contrasena.length;
+
+      if (longitud < 8) {
+        alert("Contraseña demasiado corta. Debe tener al menos 8 caracteres. (Tiene " + longitud + ")");
+      } else {
+        alert("¡Contraseña válida! (" + longitud + " caracteres)");
+      }
+    }
+  </script>
+</body>
+</html>

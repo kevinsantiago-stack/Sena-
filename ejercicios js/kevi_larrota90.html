@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Tipo de Triángulo</title>
+  <style>
+    body{font-family:Arial;padding:20px;max-width:400px;margin:auto}
+    input,button{padding:8px;width:100%;margin:6px 0;box-sizing:border-box}
+  </style>
+</head>
+<body>
+  <h2>Clasificación de Triángulo</h2>
+
+  <input id="a" type="number" placeholder="Lado A">
+  <input id="b" type="number" placeholder="Lado B">
+  <input id="c" type="number" placeholder="Lado C">
+  <button id="btn">Clasificar</button>
+
+  <p id="out"></p>
+
+  <script>
+    const A=document.getElementById('a')
+    const B=document.getElementById('b')
+    const C=document.getElementById('c')
+    const btn=document.getElementById('btn')
+    const out=document.getElementById('out')
+
+    btn.onclick=()=>{
+      const a=Number(A.value)
+      const b=Number(B.value)
+      const c=Number(C.value)
+      const tipo=a===b&&b===c?"equilátero":a===b||b===c||a===c?"isósceles":"escaleno"
+      out.textContent='El triángulo es: '+tipo
+    }
+  </script>
+</body>
+</html>

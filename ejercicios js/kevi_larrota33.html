@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor de Unidades</title>
+</head>
+<body>
+  <h2>Conversor de Unidades</h2>
+
+  <label>Seleccione una conversión:</label>
+  <select id="tipoConversion">
+    <option value="metros-pies">Metros a Pies</option>
+    <option value="kilogramos-libras">Kilogramos a Libras</option>
+    <option value="litros-galones">Litros a Galones</option>
+  </select>
+
+  <br><br>
+  <label>Ingrese el valor:</label>
+  <input type="number" id="valor" placeholder="Ingrese el valor">
+  <button onclick="convertir()">Convertir</button>
+
+  <p id="resultado"></p>
+
+  <script>
+    function convertir() {
+      const tipo = document.getElementById("tipoConversion").value;
+      const valor = parseFloat(document.getElementById("valor").value);
+      const resultado = document.getElementById("resultado");
+
+      if (isNaN(valor)) {
+        resultado.textContent = "Por favor, ingrese un número válido.";
+        return;
+      }
+
+      let convertido = 0;
+      let unidad = "";
+
+      switch (tipo) {
+        case "metros-pies":
+          convertido = valor * 3.28084;
+          unidad = "pies";
+          break;
+        case "kilogramos-libras":
+          convertido = valor * 2.20462;
+          unidad = "libras";
+          break;
+        case "litros-galones":
+          convertido = valor * 0.264172;
+          unidad = "galones";
+          break;
+      }
+
+      resultado.textContent = `${valor} equivale a ${convertido.toFixed(2)} ${unidad}.`;
+    }
+  </script>
+</body>
+</html>

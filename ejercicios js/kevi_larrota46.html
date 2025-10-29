@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ordenamiento Burbuja</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f1f5f9;color:#111827;padding:30px}
+    .card{max-width:500px;margin:auto;background:white;padding:20px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+    input,button{padding:10px;border:1px solid #cbd5e1;border-radius:6px;margin:5px 0;width:100%}
+    button{background:#2563eb;color:white;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    #resultado{margin-top:15px;font-weight:bold}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Ordenamiento Burbuja</h2>
+    <p>Ingrese números separados por comas:</p>
+    <input type="text" id="numeros" placeholder="Ejemplo: 5,3,8,1,2">
+    <button onclick="ordenar()">Ordenar</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function ordenar(){
+      const entrada=document.getElementById("numeros").value;
+      let arr=entrada.split(",").map(Number);
+      for(let i=0;i<arr.length-1;i++){
+        for(let j=0;j<arr.length-i-1;j++){
+          if(arr[j]>arr[j+1]){
+            let temp=arr[j];
+            arr[j]=arr[j+1];
+            arr[j+1]=temp;
+          }
+        }
+      }
+      document.getElementById("resultado").textContent="Ordenado: "+arr.join(", ");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Criba de Eratóstenes</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f9fafb;color:#111827;padding:30px}
+    .card{max-width:500px;margin:auto;background:white;padding:25px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+    input,button{width:100%;padding:10px;margin:6px 0;border:1px solid #d1d5db;border-radius:6px}
+    button{background:#2563eb;color:white;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    #resultado{margin-top:15px;font-weight:bold;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Criba de Eratóstenes</h2>
+    <p>Encuentra todos los números primos hasta un límite.</p>
+    <input type="number" id="limite" placeholder="Ejemplo: 50">
+    <button onclick="criba()">Calcular Primos</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function criba(){
+      const n=parseInt(document.getElementById("limite").value);
+      if(isNaN(n)||n<2){
+        resultado.textContent="Ingrese un número mayor o igual a 2.";
+        return;
+      }
+      const primos=new Array(n+1).fill(true);
+      primos[0]=primos[1]=false;
+      for(let i=2;i*i<=n;i++){
+        if(primos[i]){
+          for(let j=i*i;j<=n;j+=i)primos[j]=false;
+        }
+      }
+      const lista=[];
+      for(let i=2;i<=n;i++)if(primos[i])lista.push(i);
+      resultado.textContent="Números primos:\n"+lista.join(", ");
+    }
+  </script>
+</body>
+</html>

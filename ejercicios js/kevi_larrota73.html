@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Tablas de Multiplicar</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f9fafb;color:#111827;padding:30px}
+    .container{max-width:600px;margin:auto;background:white;padding:20px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+    h2{text-align:center;color:#1e3a8a}
+    input,button{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid #d1d5db;font-size:16px}
+    button{background:#2563eb;color:white;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    pre{background:#eef2ff;border-radius:8px;padding:15px;white-space:pre-wrap;margin-top:15px;font-family:monospace;color:#1e40af}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Generador de Tablas de Multiplicar</h2>
+    <input type="number" id="numero" placeholder="Ingresa un número">
+    <input type="number" id="hasta" placeholder="¿Hasta qué número? (por defecto 10)">
+    <button onclick="generarTabla()">Generar Tabla</button>
+    <pre id="resultado"></pre>
+  </div>
+
+  <script>
+    function generarTabla(){
+      const numero=parseInt(document.getElementById('numero').value);
+      const hasta=parseInt(document.getElementById('hasta').value)||10;
+      const res=document.getElementById('resultado');
+      if(isNaN(numero)){res.textContent=" Ingresa un número válido.";return;}
+
+      let tabla=` Tabla de Multiplicar del ${numero}\n\n`;
+      for(let i=1;i<=hasta;i++){
+        tabla+=`${numero}  ${i} = ${numero*i}\n`;
+      }
+      res.textContent=tabla;
+    }
+  </script>
+</body>
+</html>

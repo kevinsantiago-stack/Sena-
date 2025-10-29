@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú de Restaurante</title>
+</head>
+<body>
+  <h2>Menú de Restaurante</h2>
+
+  <label>Seleccione su plato:</label>
+  <select id="plato">
+    <option value="0">-- Seleccione --</option>
+    <option value="15000">Hamburguesa - $15.000</option>
+    <option value="12000">Pizza - $12.000</option>
+    <option value="10000">Ensalada - $10.000</option>
+    <option value="8000">Bebida - $8.000</option>
+  </select>
+
+  <br><br>
+
+  <label>Cantidad:</label>
+  <input type="number" id="cantidad" min="1" value="1">
+
+  <br><br>
+
+  <button onclick="calcularTotal()">Calcular Total</button>
+
+  <p id="resultado"></p>
+
+  <script>
+    function calcularTotal() {
+      const precio = parseInt(document.getElementById("plato").value);
+      const cantidad = parseInt(document.getElementById("cantidad").value);
+      const resultado = document.getElementById("resultado");
+
+      if (precio === 0 || isNaN(cantidad) || cantidad <= 0) {
+        resultado.textContent = "Por favor, seleccione un plato y una cantidad válida.";
+        return;
+      }
+
+      const total = precio * cantidad;
+      resultado.textContent = `Total a pagar: $${total.toLocaleString()}`;
+    }
+  </script>
+</body>
+</html>

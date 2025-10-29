@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Búsqueda Binaria</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f9fafb;color:#111827;padding:30px}
+    .card{max-width:600px;margin:auto;background:white;padding:20px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+    h2{text-align:center;color:#1e3a8a}
+    input,button{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid #d1d5db;font-size:16px}
+    button{background:#2563eb;color:white;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    pre{background:#eef2ff;border-radius:8px;padding:15px;white-space:pre-wrap;margin-top:15px;font-family:monospace;color:#1e40af}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Búsqueda Binaria</h2>
+    <input type="text" id="array" placeholder="Ingresa números ordenados separados por comas">
+    <input type="number" id="buscar" placeholder="Número a buscar">
+    <button onclick="buscarBinario()">Buscar</button>
+    <pre id="resultado"></pre>
+  </div>
+
+  <script>
+    function buscarBinario(){
+      const arrStr=document.getElementById('array').value;
+      const objetivo=parseFloat(document.getElementById('buscar').value);
+      const res=document.getElementById('resultado');
+      if(!arrStr){res.textContent="Ingresa un array válido."; return;}
+      const arr=arrStr.split(',').map(n=>parseFloat(n.trim())).filter(n=>!isNaN(n));
+      if(arr.length===0){res.textContent="Array inválido."; return;}
+      let izquierda=0, derecha=arr.length-1, pasos=0;
+      while(izquierda<=derecha){
+        pasos++;
+        let medio=Math.floor((izquierda+derecha)/2);
+        if(arr[medio]===objetivo){
+          res.textContent=`Número ${objetivo} encontrado en índice ${medio} en ${pasos} pasos.`;
+          return;
+        } else if(arr[medio]<objetivo){
+          izquierda=medio+1;
+        } else {
+          derecha=medio-1;
+        }
+      }
+      res.textContent=`Número ${objetivo} no encontrado en el array después de ${pasos} pasos.`;
+    }
+  </script>
+</body>
+</html>

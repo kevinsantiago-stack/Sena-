@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Números Perfectos</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f3f4f6;color:#111827;padding:30px}
+    .card{max-width:480px;margin:auto;background:white;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+    input,button{width:100%;padding:10px;margin:6px 0;border:1px solid #cbd5e1;border-radius:6px}
+    button{background:#2563eb;color:white;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    #resultado{margin-top:15px;font-weight:bold}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Números Perfectos</h2>
+    <p>Ingrese un número para verificar si es perfecto:</p>
+    <input type="number" id="num" placeholder="Ejemplo: 6">
+    <button onclick="verificarPerfecto()">Verificar</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function verificarPerfecto(){
+      const n=parseInt(document.getElementById("num").value);
+      if(isNaN(n)||n<=0){
+        resultado.textContent="Ingrese un número válido mayor a 0.";
+        return;
+      }
+      let suma=0;
+      for(let i=1;i<n;i++){
+        if(n%i===0)suma+=i;
+      }
+      resultado.textContent=suma===n?`${n} es un número perfecto.`:`${n} no es un número perfecto.`;
+    }
+  </script>
+</body>
+</html>

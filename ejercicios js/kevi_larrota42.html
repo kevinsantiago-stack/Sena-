@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Verificador de Palíndromo</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f8fafc;padding:24px;color:#0f172a}
+    .card{max-width:520px;margin:20px auto;background:white;padding:18px;border-radius:10px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+    input{padding:8px 10px;border-radius:6px;border:1px solid #d1d5db;width:80%}
+    button{padding:8px 12px;border-radius:6px;border:none;background:#2563eb;color:white;cursor:pointer;margin-left:8px}
+    #resultado{margin-top:14px;background:#f1f5f9;padding:10px;border-radius:6px;font-family:monospace}
+    .small{color:#64748b;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Verificador de Palíndromo</h2>
+    <p class="small">Escribe una palabra y descubre si se lee igual al derecho y al revés.</p>
+    <div>
+      <input id="palabra" type="text" placeholder="Ej: radar">
+      <button onclick="verificar()">Verificar</button>
+      <button onclick="limpiar()" style="background:#ef4444">Borrar</button>
+    </div>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function verificar() {
+      const texto = document.getElementById('palabra').value.trim().toLowerCase();
+      const salida = document.getElementById('resultado');
+      if (!texto) {
+        salida.innerHTML = 'Por favor ingresa una palabra.';
+        return;
+      }
+      const invertido = texto.split('').reverse().join('');
+      salida.innerHTML = texto === invertido ? 
+        ` "${texto}" es un palíndromo.` : 
+        ` "${texto}" no es un palíndromo.`;
+    }
+
+    function limpiar() {
+      document.getElementById('palabra').value = '';
+      document.getElementById('resultado').innerHTML = '';
+    }
+  </script>
+</body>
+</html>

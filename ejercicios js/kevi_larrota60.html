@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Elementos Faltantes</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f9fafb;color:#111827;padding:30px}
+    .card{max-width:500px;margin:auto;background:white;padding:25px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+    input,button{width:100%;padding:10px;margin:8px 0;border:1px solid #d1d5db;border-radius:6px}
+    button{background:#2563eb;color:white;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    pre{background:#f3f4f6;padding:10px;border-radius:8px;overflow-x:auto}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Elementos Faltantes</h2>
+    <input type="text" id="numeros" placeholder="Ejemplo: 1,2,4,6,7,10">
+    <button onclick="encontrarFaltantes()">Buscar Faltantes</button>
+    <pre id="resultado"></pre>
+  </div>
+
+  <script>
+    function encontrarFaltantes(){
+      const numeros=document.getElementById("numeros").value.split(",").map(Number).filter(n=>!isNaN(n)).sort((a,b)=>a-b);
+      if(numeros.length===0){document.getElementById("resultado").textContent="Ingresa al menos un número válido.";return;}
+      const min=numeros[0],max=numeros[numeros.length-1];
+      const faltantes=[];
+      for(let i=min;i<=max;i++)if(!numeros.includes(i))faltantes.push(i);
+      document.getElementById("resultado").textContent=faltantes.length>0?
+        "Faltan los números: ["+faltantes.join(", ")+"]":
+        "No faltan números en la secuencia.";
+    }
+  </script>
+</body>
+</html>

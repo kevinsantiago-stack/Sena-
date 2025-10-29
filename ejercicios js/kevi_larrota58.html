@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Buscar y Reemplazar</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f9fafb;color:#111827;padding:30px}
+    .card{max-width:500px;margin:auto;background:white;padding:25px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+    input,textarea,button{width:100%;padding:10px;margin:8px 0;border:1px solid #d1d5db;border-radius:6px}
+    button{background:#2563eb;color:white;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    pre{background:#f3f4f6;padding:10px;border-radius:8px;overflow-x:auto}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Buscar y Reemplazar</h2>
+    <textarea id="texto" rows="5" placeholder="Escribe un texto aquí..."></textarea>
+    <input type="text" id="buscar" placeholder="Palabra a buscar">
+    <input type="text" id="reemplazar" placeholder="Palabra nueva">
+    <button onclick="buscarYReemplazar()">Reemplazar</button>
+    <pre id="resultado"></pre>
+  </div>
+
+  <script>
+    function buscarYReemplazar(){
+      const texto=document.getElementById("texto").value;
+      const buscar=document.getElementById("buscar").value;
+      const reemplazar=document.getElementById("reemplazar").value;
+      if(!texto||!buscar){document.getElementById("resultado").textContent="Completa los campos correctamente.";return;}
+      const regex=new RegExp(buscar,"gi");
+      const nuevoTexto=texto.replace(regex,reemplazar);
+      document.getElementById("resultado").textContent=nuevoTexto;
+    }
+  </script>
+</body>
+</html>

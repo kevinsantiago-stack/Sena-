@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Inversor de Número</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f8fafc;padding:24px;color:#0f172a}
+    .card{max-width:520px;margin:20px auto;background:white;padding:18px;border-radius:10px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+    input[type=number]{padding:8px 10px;border-radius:6px;border:1px solid #d1d5db;width:80%}
+    button{padding:8px 12px;border-radius:6px;border:none;background:#2563eb;color:white;cursor:pointer;margin-left:8px}
+    .small{color:#64748b;font-size:13px}
+    #resultado{margin-top:14px;background:#f1f5f9;padding:10px;border-radius:6px;font-family:monospace}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Inversor de Número</h2>
+    <p class="small">Convierte un número como 123 en 321 fácilmente.</p>
+
+    <div>
+      <input id="numero" type="number" placeholder="Ej: 123" />
+      <button onclick="invertirNumero()">Invertir</button>
+      <button onclick="limpiar()" style="background:#ef4444">Borrar</button>
+    </div>
+
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function invertirNumero() {
+      const num = document.getElementById('numero').value;
+      const salida = document.getElementById('resultado');
+      if (!num) {
+        salida.innerHTML = 'Por favor ingresa un número.';
+        return;
+      }
+      const invertido = num.toString().split('').reverse().join('');
+      salida.innerHTML = `Número invertido: <b>${invertido}</b>`;
+    }
+
+    function limpiar() {
+      document.getElementById('resultado').innerHTML = '';
+      document.getElementById('numero').value = '';
+    }
+  </script>
+</body>
+</html>

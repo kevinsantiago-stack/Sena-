@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Descuento por Edad</title>
+  <style>
+    body{font-family:Arial;padding:20px;max-width:400px;margin:auto}
+    input,button{padding:8px;width:100%;margin:6px 0;box-sizing:border-box}
+  </style>
+</head>
+<body>
+  <h2>Descuento por Edad</h2>
+
+  <input id="edad" type="number" placeholder="Ingresa la edad">
+  <button id="btn">Calcular Descuento</button>
+
+  <p id="out"></p>
+
+  <script>
+    const edad=document.getElementById('edad')
+    const btn=document.getElementById('btn')
+    const out=document.getElementById('out')
+
+    btn.onclick=()=>{
+      const e=Number(edad.value)
+      const desc=e<12?50:e<60?10:30
+      out.textContent='Descuento: '+desc+'%'
+    }
+  </script>
+</body>
+</html>

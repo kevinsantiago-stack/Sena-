@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Async / Await y Promises</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 30px;
+    }
+    h1 {
+      text-align: center;
+      color: #1e3a8a;
+    }
+    .contenedor {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 700px;
+      margin: 30px auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      display: inline-block;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    pre {
+      background-color: #f1f5f9;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: monospace;
+      color: #1e293b;
+      white-space: pre-wrap;
+      min-height: 100px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Async / Await y Promises</h1>
+
+  <div class="contenedor">
+    <button onclick="ejecutarSaludo()">Saludo Asíncrono</button>
+    <button onclick="ejecutarPromises()">Simular Promises</button>
+    <button onclick="ejecutarAsyncAwait()">Simular Async/Await</button>
+
+    <pre id="salida">Presiona un botón para comenzar...</pre>
+  </div>
+
+  <script>
+    const salida = document.getElementById('salida');
+
+    async function saludarAsync(nombre) {
+      const saludo = await new Promise(resolve => {
+        setTimeout(() => resolve(`¡Hola, ${nombre}!`), 1000);
+      });
+      return saludo;
+    }
+
+    async function ejecutarSaludo() {
+      salida.textContent = "⏳ Esperando saludo...";
+      const mensaje = await saludarAsync("kevin");
+      salida.textContent = mensaje;
+    }
+
+    function fakeFetch(url) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (url.includes("usuario")) {
+            resolve({ json: () => Promise.resolve({ id: 1, nombre: "Ana" }) });
+          } else if (url.includes("posts")) {
+            resolve({ json: () => Promise.resolve([
+              { id: 1, titulo: "Post 1" },
+              { id: 2, titulo: "Post 2" }
+            ]) });
+          } else {
+            reject(new Error("URL no válida"));
+          }
+        }, 1000);
+      });
+    }
+
+  
+    function obtenerDatosPromises() {
+      return fakeFetch('/api/usuario/1')
+        .then(response => response.json())
+        .then(usuario => {
+          return fakeFetch(`/api/posts/${usuario.id}`);
+        })
+        .then(response => response.json())
+        .then(posts => {
+          salida.textContent = " Posts obtenidos (Promises):\n" + JSON.stringify(posts, null, 2);
+          return posts;
+        })
+        .catch(error => {
+          salida.textContent = " Error: " + error.message;
+        });
+    }
+
+    async function obtenerDatosAsync() {
+      try {
+        const response = await fakeFetch('/api/usuario/1');
+        const usuario = await response.json();
+        const postsResponse = await fakeFetch(`/api/posts/${usuario.id}`);
+        const posts = await postsResponse.json();
+        salida.textContent = "Posts obtenidos (Async/Await):\n" + JSON.stringify(posts, null, 2);
+        return posts;
+      } catch (error) {
+        salida.textContent = "Error: " + error.message;
+      }
+    }
+
+
+    function ejecutarPromises() {
+      salida.textContent = " Obteniendo datos con Promises...";
+      obtenerDatosPromises();
+    }
+
+    function ejecutarAsyncAwait() {
+      salida.textContent = " Obteniendo datos con Async/Await...";
+      obtenerDatosAsync();
+    }
+  </script>
+
+</body>
+</html>

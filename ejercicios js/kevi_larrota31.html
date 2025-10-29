@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estación del Año</title>
+</head>
+<body>
+  <h2>Estación del Año</h2>
+  <script>
+    let mes = prompt("Ingrese el mes (por ejemplo: Enero, Febrero, etc.):").toLowerCase();
+    let estacion;
+    switch (mes) {
+      case "diciembre":
+      case "enero":
+      case "febrero":
+        estacion = "Invierno";
+        break;
+      case "marzo":
+      case "abril":
+      case "mayo":
+        estacion = "Primavera";
+        break;
+      case "junio":
+      case "julio":
+      case "agosto":
+        estacion = "Verano";
+        break;
+      case "septiembre":
+      case "octubre":
+      case "noviembre":
+        estacion = "Otoño";
+        break;
+      default:
+        estacion = "Mes inválido. Intente nuevamente.";
+    }
+    alert("La estación del año es: " + estacion);
+  </script>
+</body>
+</html>

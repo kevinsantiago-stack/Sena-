@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Matriz Transpuesta</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f9fafb;color:#111827;padding:30px}
+    .card{max-width:500px;margin:auto;background:white;padding:25px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+    textarea,button{width:100%;padding:10px;margin:8px 0;border:1px solid #d1d5db;border-radius:6px}
+    button{background:#2563eb;color:white;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    pre{background:#f3f4f6;padding:10px;border-radius:8px;overflow-x:auto}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Matriz Transpuesta</h2>
+    <p>Ingresa filas separadas por saltos de línea y valores separados por comas:</p>
+    <textarea id="matrizInput" rows="5" placeholder="Ejemplo:\n1,2,3\n4,5,6"></textarea>
+    <button onclick="transponer()">Transponer Matriz</button>
+    <pre id="resultado"></pre>
+  </div>
+
+  <script>
+    function transponer(){
+      const texto=document.getElementById("matrizInput").value.trim();
+      if(!texto){document.getElementById("resultado").textContent="Ingresa una matriz válida.";return;}
+      const matriz=texto.split("\n").map(fila=>fila.split(",").map(Number));
+      const filas=matriz.length,columnas=matriz[0].length;
+      const transpuesta=Array.from({length:columnas},(_,i)=>Array.from({length:filas},(_,j)=>matriz[j][i]));
+      document.getElementById("resultado").textContent=transpuesta.map(f=>f.join(", ")).join("\n");
+    }
+  </script>
+</body>
+</html>
+s

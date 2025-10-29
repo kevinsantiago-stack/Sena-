@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Año Bisiesto</title>
+  <style>
+    body{font-family:Arial;padding:20px;max-width:400px;margin:auto}
+    input,button{padding:8px;width:100%;margin:6px 0;box-sizing:border-box}
+  </style>
+</head>
+<body>
+  <h2>Verificar Año Bisiesto</h2>
+
+  <input id="year" type="number" placeholder="Ingresa un año">
+  <button id="btn">Comprobar</button>
+
+  <p id="out"></p>
+
+  <script>
+    const year=document.getElementById('year')
+    const btn=document.getElementById('btn')
+    const out=document.getElementById('out')
+
+    btn.onclick=()=>{
+      const a=Number(year.value)
+      const esBisiesto=((a%4===0&&a%100!==0)||(a%400===0))?"sí":"no"
+      out.textContent='¿Es bisiesto?: '+esBisiesto
+    }
+  </script>
+</body>
+</html>

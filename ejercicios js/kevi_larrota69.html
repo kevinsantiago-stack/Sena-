@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordenamiento Personalizado</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f9fafb;color:#111827;padding:24px}
+    .card{max-width:600px;margin:30px auto;background:white;padding:20px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,0.1)}
+    select,button{padding:10px;margin-top:10px;border-radius:8px;border:1px solid #d1d5db;font-size:16px}
+    button{background:#2563eb;color:white;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    #resultado{margin-top:15px;background:#f0fdf4;border-radius:8px;padding:10px;font-family:monospace;color:#064e3b;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Ordenamiento de Arrays</h2>
+    <p>Selecciona un tipo de ordenamiento para ver el resultado:</p>
+    <select id="criterio">
+      <option value="numericoAsc">Números (Ascendente)</option>
+      <option value="numericoDesc">Números (Descendente)</option>
+      <option value="alfabetico">Alfabético (A-Z)</option>
+      <option value="longitud">Por Longitud de Palabra</option>
+    </select><br>
+    <button onclick="ordenarArray()">Ordenar</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    const numeros=[45,12,89,33,5,72];
+    const palabras=["manzana","uva","pera","sandía","kiwi","melocotón"];
+
+    function ordenarArray(){
+      const criterio=document.getElementById('criterio').value;
+      const res=document.getElementById('resultado');
+      let resultado;
+
+      if(criterio==="numericoAsc"){
+        resultado=[...numeros].sort((a,b)=>a-b);
+        res.innerHTML=`Original: ${numeros.join(", ")}\nOrdenado (Asc): ${resultado.join(", ")}`;
+      } else if(criterio==="numericoDesc"){
+        resultado=[...numeros].sort((a,b)=>b-a);
+        res.innerHTML=`Original: ${numeros.join(", ")}\nOrdenado (Desc): ${resultado.join(", ")}`;
+      } else if(criterio==="alfabetico"){
+        resultado=[...palabras].sort((a,b)=>a.localeCompare(b));
+        res.innerHTML=`Original: ${palabras.join(", ")}\nOrdenado (A-Z): ${resultado.join(", ")}`;
+      } else if(criterio==="longitud"){
+        resultado=[...palabras].sort((a,b)=>a.length-b.length);
+        res.innerHTML=`Original: ${palabras.join(", ")}\nPor Longitud: ${resultado.join(", ")}`;
+      }
+      res.style.background="#f0fdf4";
+      res.style.color="#064e3b";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Generador de Contraseñas</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f8fafc;color:#0f1724;padding:24px}
+    .card{max-width:520px;margin:20px auto;background:white;padding:18px;border-radius:10px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+    h2{margin:0 0 10px}
+    label{display:flex;align-items:center;gap:8px;margin:8px 0}
+    input[type="number"]{width:90px;padding:8px;border:1px solid #d1d5db;border-radius:6px}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    button{padding:10px 14px;border-radius:8px;border:none;background:#2563eb;color:white;cursor:pointer}
+    button:hover{background:#1e40af}
+    .secondary{background:#10b981}
+    .secondary:hover{background:#059669}
+    #output{margin-top:12px;background:#f1f5f9;padding:12px;border-radius:8px;font-family:monospace;white-space:pre-wrap;word-break:break-all}
+    .small{color:#64748b;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Generador de Contraseñas</h2>
+    <div class="small">Elige la longitud y los tipos de caracteres deseados.</div>
+
+    <div style="margin-top:12px">
+      <label>Longitud:
+        <input id="length" type="number" min="4" max="128" value="12">
+      </label>
+
+      <label><input id="upper" type="checkbox" checked> Letras mayúsculas (A-Z)</label>
+      <label><input id="lower" type="checkbox" checked> Letras minúsculas (a-z)</label>
+      <label><input id="numbers" type="checkbox" checked> Números (0-9)</label>
+      <label><input id="symbols" type="checkbox" checked> Símbolos (!@#$...)</label>
+
+      <div class="row" style="margin-top:12px">
+        <button onclick="generar()">Generar</button>
+        <button class="secondary" onclick="copiar()">Copiar</button>
+        <button style="background:#ef4444" onclick="limpiar()">Borrar</button>
+      </div>
+
+      <div id="output">Aquí aparecerá la contraseña generada.</div>
+    </div>
+  </div>
+
+  <script>
+    function getRandomInt(max){
+      const array=new Uint32Array(1);
+      crypto.getRandomValues(array);
+      return array[0] % max;
+    }
+
+    function generar(){
+      const len=parseInt(document.getElementById('length').value,10);
+      const useUpper=document.getElementById('upper').checked;
+      const useLower=document.getElementById('lower').checked;
+      const useNumbers=document.getElementById('numbers').checked;
+      const useSymbols=document.getElementById('symbols').checked;
+      const output=document.getElementById('output');
+      if(isNaN(len) || len < 4 || len > 128){output.textContent='Ingresa una longitud válida (4-128).';return;}
+      let pool='';
+      if(useLower) pool += 'abcdefghijklmnopqrstuvwxyz';
+      if(useUpper) pool += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      if(useNumbers) pool += '0123456789';
+      if(useSymbols) pool += '!@#$%^&*()-_=+[]{};:,.<>?/~`|\\';
+      if(pool.length === 0){output.textContent='Selecciona al menos un tipo de carácter.';return;}
+      let pwd='';
+      for(let i=0;i<len;i++){
+        pwd += pool[getRandomInt(pool.length)];
+      }
+      output.textContent = pwd;
+    }
+
+    function copiar(){
+      const txt=document.getElementById('output').textContent;
+      if(!txt || txt.startsWith('Ingresa') || txt.startsWith('Selecciona')) return;
+      navigator.clipboard.writeText(txt).then(()=>{alert('Contraseña copiada al portapapeles');},()=>{alert('No se pudo copiar');});
+    }
+
+    function limpiar(){
+      document.getElementById('output').textContent = '';
+      document.getElementById('length').value = 12;
+      document.getElementById('upper').checked = true;
+      document.getElementById('lower').checked = true;
+      document.getElementById('numbers').checked = true;
+      document.getElementById('symbols').checked = true;
+    }
+  </script>
+</body>
+</html>

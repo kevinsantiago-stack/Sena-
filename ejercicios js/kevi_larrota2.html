@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sumador simple</title>
+  <style>
+    body {
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f7f3ff;
+      color: #2b2b2b;
+    }
+    .card {
+      background: white;
+      padding: 1.25rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      width: 340px;
+    }
+    label { display:block; margin-top: 0.5rem; font-size: 0.9rem; }
+    input[type="number"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.65rem;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #7b61ff;
+      color: white;
+      font-size: 1rem;
+    }
+    #res {
+      margin-top: 0.9rem;
+      min-height: 1.2rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <main class="card" role="main" aria-labelledby="titulo">
+    <h1 id="titulo" style="margin:0 0 .5rem 0; font-size:1.1rem;">Sumador simple</h1>
+
+    <label for="a">Número A</label>
+    <input id="a" type="number" inputmode="numeric" placeholder="Ej: 3.5" aria-label="Número A">
+
+    <label for="b">Número B</label>
+    <input id="b" type="number" inputmode="numeric" placeholder="Ej: 2" aria-label="Número B">
+
+    <button id="sumar" type="button" aria-describedby="res">Sumar</button>
+
+    <div id="res" role="status" aria-live="polite"></div>
+  </main>
+
+  <script>
+    const a = document.getElementById('a');
+    const b = document.getElementById('b');
+    const res = document.getElementById('res');
+
+    document.getElementById('sumar').onclick = () => {
+      const x = Number(a.value);
+      const y = Number(b.value);
+
+      if (Number.isNaN(x) || Number.isNaN(y)) {
+        res.textContent = 'Ingresa números válidos';
+        return;
+      }
+
+      res.textContent = `${x} + ${y} = ${x + y}`;
+    };
+
+    [a, b].forEach(input => {
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') document.getElementById('sumar').click();
+      });
+    });
+  </script>
+</body>
+</html>

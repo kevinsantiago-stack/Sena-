@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contador de Vocales</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f8fafc;padding:24px;color:#0f172a}
+    .card{max-width:520px;margin:20px auto;background:white;padding:18px;border-radius:10px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+    input[type=text]{padding:8px 10px;border-radius:6px;border:1px solid #d1d5db;width:80%}
+    button{padding:8px 12px;border-radius:6px;border:none;background:#2563eb;color:white;cursor:pointer;margin-left:8px}
+    .small{color:#64748b;font-size:13px}
+    #resultado{margin-top:14px;background:#f1f5f9;padding:10px;border-radius:6px;font-family:monospace}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Contador de Vocales</h2>
+    <p class="small">Escribe una palabra o frase y descubre cuántas vocales contiene.</p>
+
+    <div>
+      <input id="texto" type="text" placeholder="Ej: Programación" />
+      <button onclick="contarVocales()">Contar</button>
+      <button onclick="limpiar()" style="background:#ef4444">Borrar</button>
+    </div>
+
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function contarVocales() {
+      const texto = document.getElementById('texto').value.toLowerCase();
+      const salida = document.getElementById('resultado');
+      if (!texto) {
+        salida.innerHTML = 'Por favor escribe una palabra o frase.';
+        return;
+      }
+      let contador = 0;
+      const vocales = 'aeiouáéíóú';
+      for (let letra of texto) {
+        if (vocales.includes(letra)) contador++;
+      }
+      salida.innerHTML = `La palabra o frase tiene <b>${contador}</b> vocal(es).`;
+    }
+
+    function limpiar() {
+      document.getElementById('resultado').innerHTML = '';
+      document.getElementById('texto').value = '';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Salarios</title>
+</head>
+<body>
+  <h2>Sistema de Salarios</h2>
+
+  <label>Seleccione la categoría del empleado:</label>
+  <select id="categoria">
+    <option value="0">-- Seleccione --</option>
+    <option value="20000">Operario - $20.000/hora</option>
+    <option value="30000">Técnico - $30.000/hora</option>
+    <option value="40000">Supervisor - $40.000/hora</option>
+  </select>
+
+  <br><br>
+
+  <label>Horas trabajadas:</label>
+  <input type="number" id="horas" min="0" placeholder="Ejemplo: 45">
+
+  <br><br>
+
+  <button onclick="calcularSalario()">Calcular Salario</button>
+
+  <p id="resultado"></p>
+
+  <script>
+    function calcularSalario() {
+      const tarifa = parseInt(document.getElementById("categoria").value);
+      const horas = parseFloat(document.getElementById("horas").value);
+      const resultado = document.getElementById("resultado");
+
+      if (tarifa === 0 || isNaN(horas) || horas < 0) {
+        resultado.textContent = "Por favor, seleccione una categoría y horas válidas.";
+        return;
+      }
+
+      let salario;
+      if (horas <= 40) {
+        salario = horas * tarifa;
+      } else {
+        const horasNormales = 40;
+        const horasExtra = horas - 40;
+        salario = (horasNormales * tarifa) + (horasExtra * tarifa * 1.5);
+      }
+
+      resultado.textContent = `El salario total es: $${salario.toLocaleString()}`;
+    }
+  </script>
+</body>
+</html>

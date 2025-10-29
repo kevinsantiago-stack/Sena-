@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Signo de Número</title>
+  <style>
+    body{font-family:Arial;padding:20px;max-width:400px;margin:auto}
+    input,button{padding:8px;width:100%;margin:6px 0;box-sizing:border-box}
+  </style>
+</head>
+<body>
+  <h2>Signo de un Número</h2>
+
+  <input id="num" type="number" placeholder="Ingresa un número">
+  <button id="btn">Evaluar</button>
+
+  <p id="out"></p>
+
+  <script>
+    const n=document.getElementById('num')
+    const btn=document.getElementById('btn')
+    const out=document.getElementById('out')
+
+    btn.onclick=()=>{
+      const x=Number(n.value)
+      const signo=(x>0)?"positivo":(x<0)?"negativo":"cero"
+      out.textContent='El número es: '+signo
+    }
+  </script>
+</body>
+</html>

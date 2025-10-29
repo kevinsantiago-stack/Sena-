@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Simulador de Dados</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input, button { padding: 8px; margin-top: 8px; }
+    .box { border: 1px solid #ccc; padding: 10px; margin-top: 15px; }
+    pre { background: #f4f4f4; padding: 10px; }
+  </style>
+</head>
+<body>
+
+<h1>Simulador de Dados</h1>
+
+<label>Caras del dado:</label>
+<input id="caras" type="number" value="6">
+
+<label>Tiradas:</label>
+<input id="tiradas" type="number" value="20">
+
+<button onclick="simular()">Simular</button>
+
+<div class="box">
+  <h2>Resultados</h2>
+  <div id="resultados"></div>
+</div>
+
+<div class="box">
+  <h2>Frecuencias</h2>
+  <pre id="frecuencias"></pre>
+</div>
+
+<div class="box">
+  <h2>Probabilidades Estimadas</h2>
+  <div id="prob"></div>
+</div>
+
+<script>
+function simular() {
+  const caras = Number(document.getElementById('caras').value)
+  const tiradas = Number(document.getElementById('tiradas').value)
+
+  const res = []
+  for (let i = 0; i < tiradas; i++) {
+    res.push(Math.floor(Math.random() * caras) + 1)
+  }
+
+  document.getElementById('resultados').textContent = res.join(', ')
+
+  const freq = {}
+  for (let i = 1; i <= caras; i++) freq[i] = 0
+  res.forEach(r => freq[r]++)
+
+  let txt = ''
+  for (let i = 1; i <= caras; i++) {
+    txt += i + ' | ' + '*'.repeat(freq[i]) + ' (' + freq[i] + ')\n'
+  }
+  document.getElementById('frecuencias').textContent = txt
+
+  let p = ''
+  for (let i = 1; i <= caras; i++) {
+    p += 'Cara ' + i + ': ' + (freq[i] / tiradas * 100).toFixed(2) + '%<br>'
+  }
+  document.getElementById('prob').innerHTML = p
+}
+</script>
+
+</body>
+</html>

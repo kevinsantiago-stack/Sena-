@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generador de Reportes</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    textarea { width: 100%; height: 100px; }
+    button { padding: 10px 15px; margin-top: 10px; }
+    .box { padding: 10px; border: 1px solid #ccc; margin-top: 15px; }
+    h2 { margin-bottom: 5px; }
+    pre { background: #f4f4f4; padding: 10px; }
+  </style>
+</head>
+<body>
+
+  <h1>Generador de Reportes</h1>
+
+  <p>Introduce valores numéricos separados por comas:</p>
+  <textarea id="input"></textarea>
+  <button onclick="generar()">Generar Reporte</button>
+
+  <div class="box">
+    <h2>Estadísticas</h2>
+    <div id="stats"></div>
+  </div>
+
+  <div class="box">
+    <h2>Gráfico de Texto</h2>
+    <pre id="grafico"></pre>
+  </div>
+
+  <div class="box">
+    <h2>Resumen Ejecutivo</h2>
+    <div id="resumen"></div>
+  </div>
+
+<script>
+function generar() {
+  const raw = document.getElementById('input').value
+  const nums = raw.split(',').map(n => Number(n.trim())).filter(n => !isNaN(n))
+
+  if (nums.length === 0) {
+    document.getElementById('stats').textContent = 'No hay datos'
+    document.getElementById('grafico').textContent = ''
+    document.getElementById('resumen').textContent = ''
+    return
+  }
+
+  const min = Math.min(...nums)
+  const max = Math.max(...nums)
+  const sum = nums.reduce((a,b)=>a+b,0)
+  const avg = sum / nums.length
+
+  document.getElementById('stats').innerHTML =
+    'Cantidad: ' + nums.length + '<br>' +
+    'Mínimo: ' + min + '<br>' +
+    'Máximo: ' + max + '<br>' +
+    'Promedio: ' + avg.toFixed(2)
+
+  let graf = ''
+  nums.forEach(n=>{
+    graf += String(n).padStart(3,' ') + ' | ' + '*'.repeat(Math.round(n)) + '\n'
+  })
+  document.getElementById('grafico').textContent = graf
+
+  let resumen = ''
+  if (avg > max * 0.6) resumen = 'Los valores muestran un rendimiento alto.'
+  else if (avg > max * 0.3) resumen = 'El rendimiento es moderado.'
+  else resumen = 'Los valores indican un rendimiento bajo.'
+
+  document.getElementById('resumen').textContent = resumen
+}
+</script>
+
+</body>
+</html>

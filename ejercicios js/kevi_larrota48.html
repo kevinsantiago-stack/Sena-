@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Promedio de Array</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f8fafc;color:#111827;padding:30px}
+    .card{max-width:480px;margin:auto;background:white;padding:20px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+    input,button{width:100%;padding:10px;margin:5px 0;border:1px solid #cbd5e1;border-radius:6px}
+    button{background:#2563eb;color:white;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    #resultado{margin-top:15px;font-weight:bold}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Promedio de Array</h2>
+    <p>Ingrese números separados por comas:</p>
+    <input type="text" id="numeros" placeholder="Ejemplo: 10, 20, 30, 40">
+    <button onclick="calcularPromedio()">Calcular Promedio</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function calcularPromedio(){
+      const entrada=document.getElementById("numeros").value;
+      const numeros=entrada.split(",").map(Number).filter(n=>!isNaN(n));
+      if(numeros.length===0){
+        resultado.textContent="Ingrese números válidos.";
+        return;
+      }
+      const suma=numeros.reduce((a,b)=>a+b,0);
+      const promedio=(suma/numeros.length).toFixed(2);
+      resultado.textContent=`Promedio: ${promedio}`;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo de Promises en JavaScript</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eef2f7;
+      padding: 30px;
+    }
+    h1 {
+      text-align: center;
+      color: #1e3a8a;
+    }
+    .contenedor {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 700px;
+      margin: 20px auto;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    pre {
+      background-color: #f8fafc;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: monospace;
+      color: #1e293b;
+      white-space: pre-wrap;
+      min-height: 120px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Uso de Promises en JavaScript</h1>
+
+  <div class="contenedor">
+    <button onclick="probarEspera()">Probar Promise .then()</button>
+    <button onclick="probarUsuario(1)">Obtener Usuario 1</button>
+    <button onclick="probarUsuario(3)">Obtener Usuario Inexistente</button>
+
+    <pre id="salida">Presiona un botón para comenzar...</pre>
+  </div>
+
+  <script>
+    function esperar(milisegundos) {
+      return new Promise((resolve, reject) => {
+        if (milisegundos < 0) {
+          reject(new Error('El tiempo no puede ser negativo'));
+        } else {
+          setTimeout(() => {
+            resolve(`Esperé ${milisegundos}ms`);
+          }, milisegundos);
+        }
+      });
+    }
+
+    function probarEspera() {
+      const salida = document.getElementById('salida');
+      salida.textContent = '⏳ Esperando...';
+
+      esperar(2000)
+        .then(resultado => {
+          salida.textContent = resultado;
+          return esperar(1000);
+        })
+        .then(resultado => {
+          salida.textContent += `\n${resultado}`;
+        })
+        .catch(error => {
+          salida.textContent = 'Error: ' + error.message;
+        });
+    }
+
+    function obtenerUsuario(id) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const usuarios = {
+            1: { id: 1, nombre: 'Ana', email: 'ana@email.com' },
+            2: { id: 2, nombre: 'Carlos', email: 'carlos@email.com' }
+          };
+          const usuario = usuarios[id];
+          if (usuario) {
+            resolve(usuario);
+          } else {
+            reject(new Error(`Usuario ${id} no encontrado`));
+          }
+        }, 1500);
+      });
+    }
+
+    function probarUsuario(id) {
+      const salida = document.getElementById('salida');
+      salida.textContent = '🔍 Buscando usuario...';
+
+      obtenerUsuario(id)
+        .then(usuario => {
+          salida.textContent = `Usuario encontrado:\n${JSON.stringify(usuario, null, 2)}`;
+        })
+        .catch(error => {
+          salida.textContent = `Error: ${error.message}`;
+        });
+    }
+  </script>
+
+</body>
+</html>

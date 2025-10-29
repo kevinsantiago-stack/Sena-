@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sistema de Autenticación (Simulado)</title>
+  <style>
+    body{font-family:Arial, sans-serif;padding:20px;max-width:520px;margin:auto}
+    input,button,select{padding:8px;margin:6px 0;width:100%;box-sizing:border-box}
+    .row{display:flex;gap:8px}
+    .row input{flex:1}
+    .card{border:1px solid #ccc;padding:12px;border-radius:6px;margin-top:12px}
+    .small{font-size:13px;color:#555}
+    .success{color:green}
+    .error{color:red}
+  </style>
+</head>
+<body>
+  <h1>Autenticación (simulada)</h1>
+
+  <div id="authArea" class="card">
+    <div id="status" class="small">No has iniciado sesión</div>
+
+    <div id="forms">
+      <h3>Registrar</h3>
+      <input id="regUser" placeholder="Usuario (email o nombre)" />
+      <input id="regPass" type="password" placeholder="Contraseña" />
+      <div class="row">
+        <input id="regConfirm" type="password" placeholder="Confirmar contraseña" />
+        <button id="btnRegister">Registrar</button>
+      </div>
+
+      <h3 style="margin-top:10px">Iniciar sesión</h3>
+      <input id="loginUser" placeholder="Usuario" />
+      <input id="loginPass" type="password" placeholder="Contraseña" />
+      <button id="btnLogin">Entrar</button>
+    </div>
+
+    <div id="sessionUI" style="display:none">
+      <div id="welcome" class="small"></div>
+      <button id="btnLogout">Cerrar sesión</button>
+      <button id="btnList">Listar usuarios (local)</button>
+      <pre id="listOut" style="background:#f4f4f4;padding:8px;border-radius:4px;margin-top:8px;display:none"></pre>
+    </div>
+
+    <div id="msg" class="small" style="margin-top:8px"></div>
+  </div>
+
+  <script>
+    const regUser=document.getElementById('regUser')
+    const regPass=document.getElementById('regPass')
+    const regConfirm=document.getElementById('regConfirm')
+    const btnRegister=document.getElementById('btnRegister')
+    const loginUser=document.getElementById('loginUser')
+    const loginPass=document.getElementById('loginPass')
+    const btnLogin=document.getElementById('btnLogin')
+    const status=document.getElementById('status')
+    const sessionUI=document.getElementById('sessionUI')
+    const forms=document.getElementById('forms')
+    const welcome=document.getElementById('welcome')
+    const btnLogout=document.getElementById('btnLogout')
+    const msg=document.getElementById('msg')
+    const btnList=document.getElementById('btnList')
+    const listOut=document.getElementById('listOut')
+
+    function toBase64(buf) {
+      const bytes=new Uint8Array(buf)
+      let binary=''
+      for(let i=0;i<bytes.byteLength;i++) binary+=String.fromCharCode(bytes[i])
+      return btoa(binary)
+    }
+
+    function fromBase64(b64) {
+      const bin=atob(b64)
+      const len=bin.length
+      const bytes=new Uint8Array(len)
+      for(let i=0;i<len;i++) bytes[i]=bin.charCodeAt(i)
+      return bytes.buffer
+    }
+
+    async function sha256(text) {
+      const enc=new TextEncoder().encode(text)
+      const hash=await crypto.subtle.digest('SHA-256',enc)
+      return toBase64(hash)
+    }
+
+    function randomSalt(len=16) {
+      const arr=new Uint8Array(len)
+      crypto.getRandomValues(arr)
+      let s=''
+      for(let i=0;i<arr.length;i++) s+=('0'+arr[i].toString(16)).slice(-2)
+      return s
+    }
+
+    function loadUsers() {
+      try{const raw=localStorage.getItem('sim_users');return raw?JSON.parse(raw):{}}catch(e){return{}}
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem('sim_users',JSON.stringify(users))
+    }
+
+    async function register(user,pass) {
+      const users=loadUsers()
+      if(!user||!pass) return {ok:false,msg:'Usuario y contraseña requeridos'}
+      if(users[user]) return {ok:false,msg:'Usuario ya existe'}
+      if(pass.length<6) return {ok:false,msg:'Contraseña mínima 6 caracteres'}
+      const salt=randomSalt()
+      const hash=await sha256(salt+pass)
+      users[user]={salt,hash,created:new Date().toISOString()}
+      saveUsers(users)
+      return {ok:true}
+    }
+
+    async function login(user,pass) {
+      const users=loadUsers()
+      const record=users[user]
+      if(!record) return {ok:false,msg:'Usuario no encontrado'}
+      const hash=await sha256(record.salt+pass)
+      if(hash!==record.hash) return {ok:false,msg:'Contraseña incorrecta'}
+      sessionStorage.setItem('sim_session',user)
+      return {ok:true}
+    }
+
+    function logout() {
+      sessionStorage.removeItem('sim_session')
+      updateUI()
+    }
+
+    function currentUser() {
+      return sessionStorage.getItem('sim_session')||null
+    }
+
+    async function handleRegister() {
+      msg.textContent=''
+      const u=regUser.value.trim()
+      const p=regPass.value
+      const c=regConfirm.value
+      if(p!==c){msg.textContent='Las contraseñas no coinciden';msg.className='small error';return}
+      const r=await register(u,p)
+      if(r.ok){msg.textContent='Registro exitoso';msg.className='small success';regUser.value='';regPass.value='';regConfirm.value=''}else{msg.textContent=r.msg;msg.className='small error'}
+    }
+
+    async function handleLogin() {
+      msg.textContent=''
+      const u=loginUser.value.trim()
+      const p=loginPass.value
+      const r=await login(u,p)
+      if(r.ok){msg.textContent='Inicio de sesión correcto';msg.className='small success';loginUser.value='';loginPass.value='';updateUI()}else{msg.textContent=r.msg;msg.className='small error'}
+    }
+
+    function updateUI() {
+      const u=currentUser()
+      if(u){
+        status.textContent='Sesión iniciada como: '+u
+        forms.style.display='none'
+        sessionUI.style.display='block'
+        welcome.textContent='Usuario: '+u
+      }else{
+        status.textContent='No has iniciado sesión'
+        forms.style.display='block'
+        sessionUI.style.display='none'
+        listOut.style.display='none'
+      }
+    }
+
+    btnRegister.addEventListener('click',handleRegister)
+    btnLogin.addEventListener('click',handleLogin)
+    btnLogout.addEventListener('click',()=>{logout();msg.textContent='Sesión cerrada';msg.className='small'})
+    btnList.addEventListener('click',()=>{
+      const users=loadUsers()
+      const keys=Object.keys(users)
+      if(keys.length===0){listOut.style.display='block';listOut.textContent='No hay usuarios registrados';return}
+      let out=''
+      keys.forEach(k=>{out+=k+'  • creado: '+users[k].created+'\n'})
+      listOut.style.display='block';listOut.textContent=out
+    })
+
+    updateUI()
+  </script>
+</body>
+</html>

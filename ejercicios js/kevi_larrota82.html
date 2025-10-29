@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Máximo de Dos</title>
+  <style>
+    body{font-family:Arial;padding:20px;max-width:400px;margin:auto}
+    input,button{padding:8px;width:100%;margin:6px 0;box-sizing:border-box}
+  </style>
+</head>
+<body>
+  <h2>Máximo de Dos Números</h2>
+
+  <input id="numA" type="number" placeholder="Número A">
+  <input id="numB" type="number" placeholder="Número B">
+  <button id="btn">Calcular Máximo</button>
+
+  <p id="out"></p>
+
+  <script>
+    const a=document.getElementById('numA')
+    const b=document.getElementById('numB')
+    const btn=document.getElementById('btn')
+    const out=document.getElementById('out')
+
+    btn.onclick=()=>{
+      const x=Number(a.value)
+      const y=Number(b.value)
+      const max=(x>y)?x:y
+      out.textContent='Máximo: '+max
+    }
+  </script>
+</body>
+</html>

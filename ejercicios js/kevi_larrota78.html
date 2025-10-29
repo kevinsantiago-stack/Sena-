@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora Científica</title>
+  <style>
+    :root{--bg:#0f1724;--panel:#0b1220;--accent:#06b6d4;--muted:#94a3b8;--btn:#111827}
+    body{background:linear-gradient(180deg,#071126 0%,#031026 100%);color:#e6eef6;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;padding:24px;display:flex;align-items:center;justify-content:center;height:100vh}
+    .calc{width:420px;background:var(--panel);border-radius:14px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,.6)}
+    .display{background:rgba(255,255,255,.03);padding:16px;border-radius:10px;min-height:64px;display:flex;flex-direction:column;justify-content:center;margin-bottom:12px}
+    .expr{font-size:14px;color:var(--muted);word-break:break-all}
+    .res{font-size:24px;margin-top:6px}
+    .row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+    button{background:var(--btn);border:0;color:inherit;padding:12px;border-radius:8px;font-weight:600;cursor:pointer}
+    .op{background:rgba(255,255,255,.03)}
+    .accent{background:linear-gradient(90deg,#06b6d4,#3b82f6);color:#031026}
+    .wide{grid-column:span 2}
+    .mode{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+    .small{font-size:12px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="calc">
+    <div class="display">
+      <div class="expr" id="expr">0</div>
+      <div class="res" id="res">0</div>
+    </div>
+    <div class="mode">
+      <label class="small">Modo</label>
+      <select id="angleMode">
+        <option value="rad">Radianes</option>
+        <option value="deg">Grados</option>
+      </select>
+      <label class="small" style="margin-left:auto">Historial</label>
+      <select id="historyList"></select>
+    </div>
+    <div class="row" id="buttons"></div>
+  </div>
+  <script>
+    const exprEl=document.getElementById('expr')
+    const resEl=document.getElementById('res')
+    const buttonsEl=document.getElementById('buttons')
+    const angleModeEl=document.getElementById('angleMode')
+    const historyList=document.getElementById('historyList')
+    let expr=''
+    let history=[]
+    const btns=[
+      {t:'(',c:'op'},{t:')',c:'op'},{t:'%',c:'op'},{t:'CE',c:'op'},{t:'C',c:'op'},{t:'⌫',c:'op'},
+      {t:'sin',c:'op'},{t:'cos',c:'op'},{t:'tan',c:'op'},{t:'ln',c:'op'},{t:'log',c:'op'},{t:'√',c:'op'},
+      {t:'7'},{t:'8'},{t:'9'},{t:'^',c:'op'},{t:'e',c:'op'},{t:'π',c:'op'},
+      {t:'4'},{t:'5'},{t:'6'},{t:'*',c:'op'},{t:'x!',c:'op'},{t:'1/x',c:'op'},
+      {t:'1'},{t:'2'},{t:'3'},{t:'/',c:'op'},{t:'abs',c:'op'},{t:'exp',c:'op'},
+      {t:'0',c:'wide'},{t:'.'},{t:'±',c:'op'},{t:'+',c:'op'},{t:'-',c:'op'},{t:'=',c:'accent'}
+    ]
+    function renderButtons(){
+      buttonsEl.innerHTML=''
+      btns.forEach(b=>{
+        const btn=document.createElement('button')
+        btn.textContent=b.t
+        if(b.c)btn.classList.add(b.c)
+        if(b.c==='accent')btn.classList.add('accent')
+        if(b.c!=='accent'&&b.c!=='op')btn.classList.add('op')
+        if(b.c==='wide')btn.classList.add('wide')
+        btn.addEventListener('click',()=>onButton(b.t))
+        buttonsEl.appendChild(btn)
+      })
+    }
+    function pushHistory(e,r){
+      history.unshift({e,r})
+      if(history.length>30)history.pop()
+      historyList.innerHTML=''
+      history.forEach((h,idx)=>{
+        const opt=document.createElement('option')
+        opt.value=idx
+        opt.textContent=h.e+' = '+h.r
+        historyList.appendChild(opt)
+      })
+    }
+    function safeEval(text){
+      const s=text.replace(/π/g,'(Math.PI)').replace(/e/g,'(Math.E)')
+      const mapped=s.replace(/\b(sin|cos|tan|asin|acos|atan|ln|log|sqrt|abs|exp)\b/g,fn=>{
+        if(fn==='ln')return 'Math.log'
+        if(fn==='log')return 'Math.log10'||'Math.log10'
+        if(fn==='sqrt')return 'Math.sqrt'
+        return 'Math.'+fn
+      })
+      const final=mapped.replace(/\^/g,'**').replace(/√\(/g,'Math.sqrt(').replace(/x!/g,'fact')
+      try{
+        const fact=(n)=>{n=Number(n);if(!Number.isInteger(n)||n<0)return NaN;let res=1;for(let i=2;i<=n;i++)res*=i;return res}
+        const MathSafe=Object.assign({},Math,{fact})
+        const angleWrap=(v,mode,inv)=>{
+          if(mode==='deg')return v*(Math.PI/180)
+          return v
+        }
+        const wrapped=final.replace(/Math\.sin\(/g,`Math.sin(`).replace(/Math\.cos\(/g,`Math.cos(`).replace(/Math\.tan\(/g,`Math.tan(`)
+        const func=new Function('Math','angleMode','return ('+wrapped+')')
+        const raw=func(MathSafe,angleModeEl.value)
+        if(angleModeEl.value==='deg'){
+          return raw
+        }
+        return raw
+      }catch(e){
+        return NaN
+      }
+    }
+    function onButton(t){
+      if(t==='C'){expr='';exprEl.textContent='0';resEl.textContent='0';return}
+      if(t==='CE'){expr='';exprEl.textContent='0';resEl.textContent='0';return}
+      if(t==='⌫'){expr=expr.slice(0,-1);if(expr==='')exprEl.textContent='0';else exprEl.textContent=expr;return}
+      if(t==='='){
+        const r=computeResult(expr)
+        resEl.textContent=String(r)
+        pushHistory(expr,String(r))
+        return
+      }
+      if(t==='±'){
+        if(expr.startsWith('-'))expr=expr.slice(1);else expr='-'+expr
+        exprEl.textContent=expr||'0'
+        return
+      }
+      if(t==='x!'){expr+= 'fact(';exprEl.textContent=expr;return}
+      if(t==='√'){expr+='sqrt(';exprEl.textContent=expr;return}
+      if(['sin','cos','tan','ln','log','abs','exp'].includes(t)){expr+=t+'(';exprEl.textContent=expr;return}
+      if(t==='π'){expr+= 'π';exprEl.textContent=expr;return}
+      if(t==='e'){expr+= 'e';exprEl.textContent=expr;return}
+      if(t==='1/x'){expr+='(1/';exprEl.textContent=expr;return}
+      expr+=t
+      exprEl.textContent=expr
+    }
+    function computeResult(input){
+      if(!input)return 0
+      let transformed=input.replace(/\s+/g,'')
+      transformed=transformed.replace(/log\(/g,'log(')
+      transformed=transformed.replace(/ln\(/g,'ln(')
+      transformed=transformed.replace(/sqrt\(/g,'sqrt(')
+      transformed=transformed.replace(/fact\(/g,'fact(')
+      transformed=transformed.replace(/π/g,'Math.PI')
+      transformed=transformed.replace(/(?<![a-zA-Z0-9_.])e(?![a-zA-Z0-9_.])/g,'Math.E')
+      transformed=transformed.replace(/\^/g,'**')
+      try{
+        const r=safeEval(input)
+        if(typeof r==='number'&&isFinite(r))return Number(Math.round((r+Number.EPSILON)*1e12)/1e12)
+        return 'Error'
+      }catch(e){
+        return 'Error'
+      }
+    }
+    function handleKey(e){
+      const k=e.key
+      if((/^[0-9.+\-*/()%]$/).test(k)){expr+=k;exprEl.textContent=expr;return}
+      if(k==='Enter'){const r=computeResult(expr);resEl.textContent=String(r);pushHistory(expr,String(r));return}
+      if(k==='Backspace'){expr=expr.slice(0,-1);exprEl.textContent=expr||'0';return}
+    }
+    renderButtons()
+    document.addEventListener('keydown',handleKey)
+    historyList.addEventListener('change',()=>{
+      const idx=Number(historyList.value)
+      if(!Number.isNaN(idx)&&history[idx]){
+        expr=history[idx].e
+        exprEl.textContent=expr
+        resEl.textContent=history[idx].r
+      }
+    })
+  </script>
+</body>
+</html>

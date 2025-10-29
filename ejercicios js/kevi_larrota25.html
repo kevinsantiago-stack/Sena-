@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificar Par o Impar</title>
+</head>
+<body>
+  <h2>Verificador de número par o impar</h2>
+  <p>Haz clic en el botón para ingresar un número y verificar si es par o impar.</p>
+
+  <button onclick="verificarNumero()">Verificar</button>
+
+  <script>
+    function verificarNumero() {
+      let numero = parseInt(prompt("Ingrese un número para verificar si es par o impar:"));
+      if (isNaN(numero)) {
+        alert("Por favor, ingrese un número entero válido.");
+      } else {
+
+        if (numero % 2 === 0) {
+          alert("El número " + numero + " es par.");
+        } else {
+          alert("El número " + numero + " es impar.");
+        }
+      }
+    }
+  </script>
+</body>
+</html>
+

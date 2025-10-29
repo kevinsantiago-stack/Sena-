@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rotación de Array</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f9fafb;color:#111827;padding:30px}
+    .card{max-width:500px;margin:auto;background:white;padding:25px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+    input,select,button{width:100%;padding:10px;margin:6px 0;border:1px solid #d1d5db;border-radius:6px}
+    button{background:#2563eb;color:white;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    #resultado{margin-top:15px;font-weight:bold;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Rotación de Array</h2>
+    <p>Mueve los elementos k posiciones hacia la izquierda o derecha.</p>
+    <input type="text" id="entrada" placeholder="Ejemplo: 1,2,3,4,5">
+    <input type="number" id="k" placeholder="Número de posiciones (k)">
+    <select id="direccion">
+      <option value="izquierda">Izquierda</option>
+      <option value="derecha">Derecha</option>
+    </select>
+    <button onclick="rotar()">Rotar Array</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function rotar(){
+      const entrada=document.getElementById("entrada").value;
+      const k=parseInt(document.getElementById("k").value);
+      const dir=document.getElementById("direccion").value;
+      const resultado=document.getElementById("resultado");
+      if(!entrada.trim()||isNaN(k)){resultado.textContent="Ingrese valores válidos.";return;}
+      let arr=entrada.split(",").map(n=>n.trim());
+      let pasos=k%arr.length;
+      if(pasos===0){resultado.textContent=`Array rotado:\n${arr.join(", ")}`;return;}
+      if(dir==="derecha"){arr=arr.slice(-pasos).concat(arr.slice(0,-pasos));}
+      else{arr=arr.slice(pasos).concat(arr.slice(0,pasos));}
+      resultado.textContent=`Array rotado:\n${arr.join(", ")}`;
+    }
+  </script>
+</body>
+</html>

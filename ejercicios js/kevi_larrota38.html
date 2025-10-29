@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tabla de Multiplicar</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f7fafc; padding:24px; color:#0f1724 }
+    .card{ max-width:540px; margin:20px auto; background:white; padding:18px; border-radius:10px; box-shadow:0 6px 20px rgba(2,6,23,0.06) }
+    input[type=number]{ padding:8px 10px; border-radius:6px; border:1px solid #d1d5db; width:100px }
+    button{ padding:8px 12px; border-radius:6px; border:none; background:#2563eb; color:white; cursor:pointer; margin-left:8px }
+    ul{ margin-top:12px; line-height:1.6; font-family: monospace; background:#f1f5f9; padding:10px; border-radius:6px }
+    .small{ color:#6b7280; font-size:13px }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Tabla de Multiplicar</h2>
+    <p class="small">Ingresa un número y genera su tabla del 1 al 10.</p>
+
+    <div>
+      <input id="numero" type="number" value="7" />
+      <button onclick="generar()">Generar</button>
+      <button onclick="limpiar()" style="background:#ef4444">Borrar</button>
+    </div>
+
+    <div id="salida"></div>
+  </div>
+
+  <script>
+    function generar() {
+      const n = parseInt(document.getElementById('numero').value, 10);
+      const cont = document.getElementById('salida');
+      if (isNaN(n)) {
+        cont.innerHTML = '<p>Por favor ingresa un número válido.</p>';
+        return;
+      }
+      let html = '<ul>';
+      for (let i = 1; i <= 10; i++) {
+        html += `<li>${n} × ${i} = ${n * i}</li>`;
+      }
+      html += '</ul>';
+      cont.innerHTML = html;
+    }
+    function limpiar() {
+      document.getElementById('salida').innerHTML = '';
+      document.getElementById('numero').value = '';
+    }
+    generar();
+  </script>
+</body>
+</html>

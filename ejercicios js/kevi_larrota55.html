@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Unión e Intersección de Arrays</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f3f4f6;color:#111827;padding:30px}
+    .card{max-width:500px;margin:auto;background:white;padding:25px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+    input,button{width:100%;padding:10px;margin:6px 0;border:1px solid #d1d5db;border-radius:6px}
+    button{background:#2563eb;color:white;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    #resultado{margin-top:15px;font-weight:bold;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Unión e Intersección de Arrays</h2>
+    <p>Combina o compara dos listas de números.</p>
+    <input type="text" id="array1" placeholder="Primer array (ejemplo: 1,2,3,4)">
+    <input type="text" id="array2" placeholder="Segundo array (ejemplo: 3,4,5,6)">
+    <button onclick="union()">Unión</button>
+    <button onclick="interseccion()">Intersección</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function obtenerArrays(){
+      const arr1=document.getElementById("array1").value.split(",").map(n=>n.trim());
+      const arr2=document.getElementById("array2").value.split(",").map(n=>n.trim());
+      return [arr1,arr2];
+    }
+    function union(){
+      const [a,b]=obtenerArrays();
+      const resultado=[...new Set([...a,...b])];
+      document.getElementById("resultado").textContent=`Unión:\n${resultado.join(", ")}`;
+    }
+    function interseccion(){
+      const [a,b]=obtenerArrays();
+      const resultado=a.filter(x=>b.includes(x));
+      document.getElementById("resultado").textContent=`Intersección:\n${resultado.join(", ")}`;
+    }
+  </script>
+</body>
+</html>

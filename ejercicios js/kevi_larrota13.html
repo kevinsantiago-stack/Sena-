@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análisis de Frecuencia de Palabras</title>
+</head>
+<body>
+  <h1>Análisis de Frecuencia de Palabras</h1>
+
+  <textarea id="texto" rows="6" cols="50" placeholder="Escribe o pega un texto aquí..."></textarea><br><br>
+  <button onclick="analizar()">Analizar Texto</button>
+
+  <h2>Resultados:</h2>
+  <div id="resultados"></div>
+
+  <script>
+    function contarPalabras(texto) {
+      
+      const textoLimpio = texto
+        .toLowerCase() 
+        .replace(/[^\w\\sáéíóúñü]/g, '')
+        .trim(); 
+
+  
+      const palabras = textoLimpio
+        .split(/\\s+/) 
+        .filter(palabra => palabra.length > 0);
+
+
+      const frecuencias = new Map();
+      palabras.forEach(palabra => {
+        if (frecuencias.has(palabra)) {
+          frecuencias.set(palabra, frecuencias.get(palabra) + 1);
+        } else {
+          frecuencias.set(palabra, 1);
+        }
+      });
+
+
+      return Array.from(frecuencias.entries())
+        .sort((a, b) => b[1] - a[1])
+        .map(([palabra, frecuencia]) => ({
+          palabra,
+          frecuencia,
+          porcentaje: ((frecuencia / palabras.length) * 100).toFixed(1)
+        }));
+    }
+
+    function mostrarAnalisis(texto) {
+      const resultados = contarPalabras(texto);
+      const container = document.getElementById('resultados');
+
+      if (resultados.length === 0) {
+        container.innerHTML = '<p>No se encontraron palabras.</p>';
+        return;
+      }
+
+      const total = resultados.reduce((sum, item) => sum + item.frecuencia, 0);
+
+      container.innerHTML = `
+        <p>Se analizaron <strong>${total}</strong> palabras.</p>
+        <ul>
+          ${resultados.slice(0, 10).map(item =>
+            `<li><strong>${item.palabra}</strong>: ${item.frecuencia} veces (${item.porcentaje}%)</li>`
+          ).join('')}
+        </ul>
+      `;
+    }
+
+    function analizar() {
+      const texto = document.getElementById('texto').value;
+      mostrarAnalisis(texto);
+    }
+  </script>
+</body>
+</html>

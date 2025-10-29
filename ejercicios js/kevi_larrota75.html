@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cifrado César</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; background: #f8fafc; color: #0f1724; padding: 24px; }
+    .card { max-width: 520px; margin: 20px auto; background: white; padding: 18px; border-radius: 10px; box-shadow: 0 6px 20px rgba(2,6,23,0.06); }
+    input, textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; margin: 8px 0; box-sizing: border-box; font-family: inherit; }
+    button { padding: 10px 14px; border-radius: 8px; border: none; background: #2563eb; color: white; cursor: pointer; }
+    button.secondary { background: #10b981; margin-left: 8px; }
+    #resultado { margin-top: 12px; padding: 12px; border-radius: 8px; font-family: monospace; background: #ecfdf5; color: #065f46; word-break: break-word; }
+    label { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Cifrado César</h2>
+    <label for="texto">Texto original:</label>
+    <textarea id="texto" rows="4" placeholder="Escribe el texto a cifrar o descifrar..."></textarea>
+    <label for="desplazamiento">Desplazamiento:</label>
+    <input type="number" id="desplazamiento" value="3" min="1" max="25">
+    <div style="margin-top:8px">
+      <button onclick="cifrar()">Cifrar</button>
+      <button class="secondary" onclick="descifrar()">Descifrar</button>
+    </div>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function cifrar() {
+      const texto = document.getElementById("texto").value.toLowerCase();
+      const desplazamiento = parseInt(document.getElementById("desplazamiento").value);
+      const alfabeto = "abcdefghijklmnopqrstuvwxyz";
+      let cifrado = "";
+
+      for (let letra of texto) {
+        if (alfabeto.includes(letra)) {
+          let pos = (alfabeto.indexOf(letra) + desplazamiento) % 26;
+          cifrado += alfabeto[pos];
+        } else {
+          cifrado += letra;
+        }
+      }
+
+      document.getElementById("resultado").textContent = "Texto cifrado: " + cifrado;
+    }
+
+    function descifrar() {
+      const texto = document.getElementById("texto").value.toLowerCase();
+      const desplazamiento = parseInt(document.getElementById("desplazamiento").value);
+      const alfabeto = "abcdefghijklmnopqrstuvwxyz";
+      let descifrado = "";
+
+      for (let letra of texto) {
+        if (alfabeto.includes(letra)) {
+          let pos = (alfabeto.indexOf(letra) - desplazamiento + 26) % 26;
+          descifrado += alfabeto[pos];
+        } else {
+          descifrado += letra;
+        }
+      }
+
+      document.getElementById("resultado").textContent = "Texto descifrado: " + descifrado;
+    }
+  </script>
+</body>
+</html>

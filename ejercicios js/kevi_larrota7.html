@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Temporizador Simple</title>
+  <style>
+    body {
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f7f3ff;
+      color: #2b2b2b;
+    }
+    .card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      width: 360px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    #timer-display {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #7b61ff;
+      margin: 1rem 0;
+      letter-spacing: 2px;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    button {
+      flex: 1;
+      padding: 0.65rem;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+      color: white;
+    }
+    #iniciar { background: #7b61ff; }
+    #detener { background: #ff6161; }
+    button:hover {
+      filter: brightness(0.9);
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Temporizador Simple</h1>
+
+    <input id="tiempo-inicial" type="number" min="1" placeholder="Tiempo en segundos (ej: 60)">
+    <div id="timer-display">00:00</div>
+
+    <div class="buttons">
+      <button id="iniciar">Iniciar</button>
+      <button id="detener">Detener</button>
+    </div>
+  </main>
+
+  <script>
+    let timerInterval = null; // Variable para guardar la referencia del timer
+    let tiempoRestante = 0; // Tiempo en segundos
+
+    const display = document.getElementById('timer-display');
+    const inputTiempo = document.getElementById('tiempo-inicial');
+    const btnIniciar = document.getElementById('iniciar');
+    const btnDetener = document.getElementById('detener');
+
+    function actualizarDisplay() {
+      const minutos = Math.floor(tiempoRestante / 60);
+      const segundos = tiempoRestante % 60;
+      display.textContent = 
+        `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+    }
+
+    btnIniciar.onclick = () => {
+      // Limpiar timer existente si hay uno
+      if (timerInterval) clearInterval(timerInterval);
+
+      tiempoRestante = parseInt(inputTiempo.value) || 60;
+
+      timerInterval = setInterval(() => {
+        if (tiempoRestante <= 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          alert('¡Tiempo terminado!');
+          return;
+        }
+        tiempoRestante--;
+        actualizarDisplay();
+      }, 1000);
+
+      actualizarDisplay();
+    };
+
+    btnDetener.onclick = () => {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    };
+  </script>
+</body>
+</html>

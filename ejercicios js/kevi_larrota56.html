@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Array Invertido</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f3f4f6;color:#111827;padding:30px}
+    .card{max-width:480px;margin:auto;background:white;padding:25px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+    input,button{width:100%;padding:10px;margin:6px 0;border:1px solid #d1d5db;border-radius:6px}
+    button{background:#2563eb;color:white;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    #resultado{margin-top:15px;font-weight:bold}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Array Invertido</h2>
+    <p>Invierte el orden de los elementos en una lista.</p>
+    <input type="text" id="arrayInput" placeholder="Ejemplo: 1,2,3,4,5">
+    <button onclick="invertirArray()">Invertir</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function invertirArray(){
+      const entrada=document.getElementById("arrayInput").value.split(",").map(e=>e.trim());
+      const invertido=[...entrada].reverse();
+      document.getElementById("resultado").textContent=`Array invertido: ${invertido.join(", ")}`;
+    }
+  </script>
+</body>
+</html>

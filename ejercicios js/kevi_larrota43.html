@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Suma de Matrices</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f8fafc;padding:24px;color:#0f172a}
+    .card{max-width:600px;margin:20px auto;background:white;padding:20px;border-radius:10px;box-shadow:0 6px 20px rgba(2,6,23,0.08)}
+    input{width:50px;text-align:center;margin:4px;border:1px solid #d1d5db;border-radius:6px;padding:6px}
+    button{padding:8px 12px;border:none;border-radius:6px;background:#2563eb;color:white;cursor:pointer;margin-top:10px}
+    table{margin:10px auto;border-collapse:collapse}
+    td{padding:5px;text-align:center}
+    #resultado{margin-top:14px;font-family:monospace;background:#f1f5f9;padding:10px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Suma de Matrices 2x2</h2>
+    <p>Ingresa los valores de las dos matrices para obtener su suma:</p>
+
+    <h3>Matriz A</h3>
+    <table>
+      <tr><td><input id="a11" type="number"></td><td><input id="a12" type="number"></td></tr>
+      <tr><td><input id="a21" type="number"></td><td><input id="a22" type="number"></td></tr>
+    </table>
+
+    <h3>Matriz B</h3>
+    <table>
+      <tr><td><input id="b11" type="number"></td><td><input id="b12" type="number"></td></tr>
+      <tr><td><input id="b21" type="number"></td><td><input id="b22" type="number"></td></tr>
+    </table>
+
+    <button onclick="sumarMatrices()">Sumar</button>
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function sumarMatrices(){
+      const a=[[+a11.value,+a12.value],[+a21.value,+a22.value]];
+      const b=[[+b11.value,+b12.value],[+b21.value,+b22.value]];
+      const resultado=document.getElementById('resultado');
+      let r=[[0,0],[0,0]];
+      for(let i=0;i<2;i++){
+        for(let j=0;j<2;j++){
+          r[i][j]=a[i][j]+b[i][j];
+        }
+      }
+      resultado.innerHTML=`Resultado:<br>
+      [ ${r[0][0]} , ${r[0][1]} ]<br>
+      [ ${r[1][0]} , ${r[1][1]} ]`;
+    }
+  </script>
+</body>
+</html>

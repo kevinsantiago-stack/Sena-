@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Propina</title>
+</head>
+<body>
+  <h2>Calculadora de Propina</h2>
+  <p>Selecciona el tipo de servicio para calcular la propina:</p>
+
+  <button onclick="calcularPropina(10)">10% - Servicio Básico</button>
+  <button onclick="calcularPropina(15)">15% - Buen Servicio</button>
+  <button onclick="calcularPropina(20)">20% - Excelente Servicio</button>
+
+  <script>
+    function calcularPropina(porcentaje) {
+      let total = parseFloat(prompt("Ingrese el total de la cuenta:"));
+      if (isNaN(total) || total <= 0) {
+        alert("Por favor, ingrese un monto válido.");
+        return;
+      }
+      let propina = total * (porcentaje / 100);
+      let totalFinal = total + propina;
+      alert("Propina del " + porcentaje + "%: $" + propina.toFixed(2) + "\nTotal a pagar: $" + totalFinal.toFixed(2));
+    }
+  </script>
+</body>
+</html>

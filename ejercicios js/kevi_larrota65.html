@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Validación de Email</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f8fafc;color:#0f1724;padding:24px}
+    .card{max-width:520px;margin:20px auto;background:white;padding:18px;border-radius:10px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+    input{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;margin:8px 0;box-sizing:border-box}
+    button{padding:10px 14px;border-radius:8px;border:none;background:#2563eb;color:white;cursor:pointer}
+    button.secondary{background:#10b981;margin-left:8px}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    #mensaje{margin-top:12px;padding:10px;border-radius:8px;font-family:monospace}
+    .ok{background:#ecfdf5;color:#065f46}
+    .bad{background:#ffefef;color:#7f1d1d}
+    .small{color:#64748b;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Validación de Email</h2>
+    <div class="small">Ingresa una dirección de correo para comprobar su formato.</div>
+    <input id="email" type="email" placeholder="ejemplo@dominio.com" />
+    <div class="row" style="margin-top:8px">
+      <button onclick="validar()">Validar</button>
+      <button class="secondary" onclick="validarEnVivo()">Activar validación en vivo</button>
+      <button style="background:#ef4444" onclick="limpiar()">Borrar</button>
+    </div>
+    <div id="mensaje"></div>
+  </div>
+
+  <script>
+    let live=false;
+    const campo=document.getElementById('email');
+    const mensaje=document.getElementById('mensaje');
+
+    function validar(){
+      const e=campo.value.trim();
+      const res=validarEmail(e);
+      mostrarResultado(res);
+    }
+
+    function validarEnVivo(){
+      live = !live;
+      if(live){
+        campo.addEventListener('input', validar);
+        document.querySelector('.secondary').textContent = 'Desactivar validación en vivo';
+        validar();
+      } else {
+        campo.removeEventListener('input', validar);
+        document.querySelector('.secondary').textContent = 'Activar validación en vivo';
+        mensaje.textContent = '';
+        mensaje.className = '';
+      }
+    }
+
+    function limpiar(){
+      campo.value = '';
+      mensaje.textContent = '';
+      mensaje.className = '';
+      if(live) validarEnVivo();
+    }
+
+    function mostrarResultado(res){
+      if(res.valid){
+        mensaje.textContent = 'Dirección válida';
+        mensaje.className = 'ok';
+      } else {
+        mensaje.textContent = 'Inválido: ' + res.reason;
+        mensaje.className = 'bad';
+      }
+    }
+
+    function validarEmail(email){
+      if(!email) return { valid:false, reason:'Cadena vacía' };
+      if(email.length > 254) return { valid:false, reason:'Demasiado largo (>254 caracteres)' };
+      const basicRegex = /^[A-Za-z0-9!#$%&'*+\-/=?^_`{|}~.]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+      if(!basicRegex.test(email)) return { valid:false, reason:'Formato general inválido' };
+      if(email.includes('..')) return { valid:false, reason:'Contiene puntos consecutivos (..)' };
+      const parts = email.split('@');
+      if(parts.length !== 2) return { valid:false, reason:'Debe contener un solo símbolo @' };
+      const local = parts[0];
+      const domain = parts[1];
+      if(local.length === 0 || local.length > 64) return { valid:false, reason:'Parte local inválida (0 o >64 caracteres)' };
+      const domainLabels = domain.split('.');
+      for(const label of domainLabels){
+        if(label.length === 0) return { valid:false, reason:'Etiqueta de dominio vacía' };
+        if(label.length > 63) return { valid:false, reason:'Etiqueta de dominio demasiado larga (>63)' };
+        if(label.startsWith('-') || label.endsWith('-')) return { valid:false, reason:'Etiqueta de dominio inicia o termina con guion' };
+        if(!/^[A-Za-z0-9-]+$/.test(label)) return { valid:false, reason:'Caracteres inválidos en dominio' };
+      }
+      const tld = domainLabels[domainLabels.length-1];
+      if(tld.length < 2) return { valid:false, reason:'TLD demasiado corto' };
+      return { valid:true };
+    }
+  </script>
+</body>
+</html>

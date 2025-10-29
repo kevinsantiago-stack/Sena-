@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Operador ??</title>
+</head>
+<body>
+  <h2>Revisa la consola</h2>
+
+  <script>
+    let usuario=null;
+    let nombreUsuario=usuario??"Invitado";
+
+    let contador=0;
+    let valorActual=contador??100;
+
+    console.log(nombreUsuario);
+    console.log(valorActual);
+  </script>
+</body>
+</html>
