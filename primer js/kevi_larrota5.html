@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quitar Tildes y Caracteres Especiales</title>
+  <style>
+    body {
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f7f3ff;
+      color: #2b2b2b;
+    }
+    .card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      width: 380px;
+    }
+    h1 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      box-sizing: border-box;
+      resize: none;
+    }
+    button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.65rem;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #7b61ff;
+      color: white;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #6b52ff;
+    }
+    #salida {
+      margin-top: 1rem;
+      min-height: 1.2rem;
+      font-weight: 600;
+      color: #7b61ff;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Quitar Tildes y Caracteres Especiales</h1>
+
+    <label for="texto">Ingresa tu texto:</label>
+    <textarea id="texto" placeholder="Ejemplo: José María Azñar"></textarea>
+
+    <button id="procesar" type="button">Normalizar texto</button>
+
+    <div id="salida"></div>
+  </main>
+
+  <script>
+    const quitarTildes = (texto) => {
+      return texto
+        .normalize('NFD') 
+        .replace(/\p{Diacritic}/gu, ''); 
+    };
+    document.getElementById('procesar').onclick = () => {
+      const textoOriginal = document.getElementById('texto').value.trim();
+      const salida = document.getElementById('salida');
+
+      if (textoOriginal === '') {
+        salida.textContent = 'Por favor, escribe un texto.';
+        return;
+      }
+
+      const textoNormalizado = quitarTildes(textoOriginal);
+      salida.innerHTML = `
+        <strong>Original:</strong> ${textoOriginal}<br>
+        <strong>Sin tildes:</strong> ${textoNormalizado}
+      `;
+    };
+  </script>
+</body>
+</html>

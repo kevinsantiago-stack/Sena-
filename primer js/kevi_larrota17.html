@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordenamiento de Arrays y Objetos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 30px;
+    }
+    h1 {
+      text-align: center;
+      color: #1e3a8a;
+    }
+    .contenedor {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      margin: 20px auto;
+    }
+    button {
+      display: block;
+      margin: 15px auto;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    pre {
+      background-color: #f1f5f9;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: monospace;
+      color: #1e293b;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Ordenamiento de Arrays y Objetos</h1>
+
+  <div class="contenedor">
+    <button onclick="ordenarArrays()">Ejecutar Código</button>
+    <pre id="resultado">Presiona el botón para ejecutar...</pre>
+  </div>
+
+  <script>
+    function ordenarArrays() {
+      const salida = document.getElementById('resultado');
+
+      const numeros = [64, 34, 25, 12, 22, 11, 90];
+
+      const numerosAscendente = numeros.toSorted((a, b) => a - b);
+
+      const numerosDescendente = [...numeros].sort((a, b) => b - a);
+
+      const estudiantes = [
+        { nombre: 'Ana', edad: 23, promedio: 8.5 },
+        { nombre: 'Carlos', edad: 21, promedio: 9.2 },
+        { nombre: 'María', edad: 22, promedio: 7.8 }
+      ];
+
+      const porEdad = [...estudiantes].sort((a, b) => a.edad - b.edad);
+
+      const porPromedio = [...estudiantes].sort((a, b) => b.promedio - a.promedio);
+
+      const porNombre = [...estudiantes].sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+    
+      let texto = '';
+      texto += '=== MÉTODO 1: toSorted() ===\\n';
+      texto += 'Original: ' + JSON.stringify(numeros) + '\\n';
+      texto += 'Ascendente: ' + JSON.stringify(numerosAscendente) + '\\n\\n';
+
+      texto += '=== MÉTODO 2: Spread + sort() ===\\n';
+      texto += 'Descendente: ' + JSON.stringify(numerosDescendente) + '\\n\\n';
+
+      texto += '=== ORDENAMIENTO DE OBJETOS ===\\n';
+      texto += 'Por Edad (ascendente):\\n' + JSON.stringify(porEdad, null, 2) + '\\n\\n';
+      texto += 'Por Promedio (descendente):\\n' + JSON.stringify(porPromedio, null, 2) + '\\n\\n';
+      texto += 'Por Nombre (alfabético):\\n' + JSON.stringify(porNombre, null, 2) + '\\n\\n';
+
+      texto += ' Los arrays originales no fueron modificados.';
+
+      salida.textContent = texto;
+    }
+  </script>
+
+</body>
+</html>

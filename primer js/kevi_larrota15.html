@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordenar Arrays sin modificar el original</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e3a8a;
+    }
+
+    .contenedor {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 30px auto;
+    }
+
+    pre {
+      background-color: #f1f5f9;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: monospace;
+      color: #1e293b;
+      white-space: pre-wrap;
+    }
+
+    button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      display: block;
+      margin: 15px auto;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ordenar Arrays (sin modificar el original)</h1>
+  <div class="contenedor">
+    <p><strong>Objetivo:</strong> Demostrar cómo ordenar arreglos sin alterar el original, utilizando <code>toSorted()</code>, el spread operator y funciones de comparación personalizadas.</p>
+
+    <button onclick="ejecutar()">Mostrar Ejemplo</button>
+
+    <pre id="salida">Presiona el botón para ver los resultados...</pre>
+  </div>
+
+  <script>
+    function ejecutar() {
+      const salida = document.getElementById('salida');
+
+      const numeros = [5, 2, 9, 1, 7];
+      const frutas = ['Mango', 'pera', 'Manzana', 'fresa', 'Durazno'];
+
+      const ordenAsc = numeros.toSorted((a, b) => a - b);
+      const ordenDesc = numeros.toSorted((a, b) => b - a);
+
+      const copiaOrdenada = [...frutas].sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
+
+      let texto = '';
+      texto += 'Array original de números: ' + JSON.stringify(numeros) + '\\n';
+      texto += 'Orden ascendente (toSorted): ' + JSON.stringify(ordenAsc) + '\\n';
+      texto += 'Orden descendente (toSorted): ' + JSON.stringify(ordenDesc) + '\\n\\n';
+
+      texto += 'Array original de frutas: ' + JSON.stringify(frutas) + '\\n';
+      texto += 'Ordenado alfabéticamente (spread + sort): ' + JSON.stringify(copiaOrdenada) + '\\n\\n';
+
+      texto += 'Comprobación: los arrays originales no fueron modificados.';
+
+      salida.textContent = texto;
+    }
+  </script>
+</body>
+</html>

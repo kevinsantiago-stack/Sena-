@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Copiar Texto al Portapapeles</title>
+  <style>
+    body {
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f7f3ff;
+      color: #2b2b2b;
+    }
+    .card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      width: 380px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      resize: none;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.65rem;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      background: #7b61ff;
+      color: white;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:hover {
+      background: #6b52ff;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Copiar Texto al Portapapeles</h1>
+
+    <textarea id="texto-fuente" placeholder="Escribe o pega aquí el texto que quieres copiar..."></textarea>
+
+    <button id="copiar-btn" type="button">Copiar</button>
+  </main>
+
+  <script>
+    async function copiarTexto(texto, boton) {
+      try {
+
+        await navigator.clipboard.writeText(texto);
+
+
+        const textoOriginal = boton.textContent;
+        boton.textContent = '¡Copiado!';
+        boton.style.backgroundColor = '#4CAF50';
+
+        setTimeout(() => {
+          boton.textContent = textoOriginal;
+          boton.style.backgroundColor = '';
+        }, 2000);
+
+      } catch (error) {rna
+        console.error('Error al copiar:', error);
+
+        boton.textContent = 'Error al copiar';
+        boton.style.backgroundColor = '#f44336';
+
+        setTimeout(() => {
+          boton.textContent = 'Copiar';
+          boton.style.backgroundColor = '';
+        }, 2000);
+      }
+    }
+
+
+    document.getElementById('copiar-btn').onclick = (event) => {
+      const textoACopiar = document.getElementById('texto-fuente').value.trim();
+      if (textoACopiar === '') {
+        event.target.textContent = 'Nada que copiar';
+        event.target.style.backgroundColor = '#f44336';
+        setTimeout(() => {
+          event.target.textContent = 'Copiar';
+          event.target.style.backgroundColor = '';
+        }, 2000);
+        return;
+      }
+      copiarTexto(textoACopiar, event.target);
+    };
+  </script>
+</body>
+</html>

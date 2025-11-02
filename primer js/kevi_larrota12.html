@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obtener Datos con Fallback</title>
+</head>
+<body>
+  <h1>Obtener Datos con Fallback</h1>
+
+  <label for="userId">ID de usuario:</label>
+  <input type="text" id="userId" value="123">
+  <button onclick="ejecutar()">Obtener Datos</button>
+
+  <pre id="resultado"></pre>
+
+  <script>
+    async function obtenerDatosConFallback(userId) {
+      let datos = null;
+      // Intento 1: API principal
+      try {
+        const respuesta = await fetch(`/api/usuarios/${userId}`);
+        if (!respuesta.ok) throw new Error('API principal falló');
+        datos = await respuesta.json();
+        console.log('Datos obtenidos de API principal');
+        return datos;
+      } catch (error) {
+        console.warn('API principal falló:', error.message);
+      }
+
+      // Intento 2: Cache local
+      try {
+        datos = JSON.parse(localStorage.getItem(`usuario-${userId}`));
+        if (datos) {
+          console.log('Datos obtenidos del cache local');
+          return datos;
+        }
+      } catch (error) {
+        console.warn('Cache local falló:', error.message);
+      }
+
+      // Intento 3: Datos por defecto
+      try {
+        datos = await cargarDatosDefault();
+        console.log('Usando datos por defecto');
+        return datos;
+      } catch (error) {
+        console.error('Todos los fallbacks fallaron:', error.message);
+      }
+
+      // Último recurso: objeto básico
+      return {
+        id: userId,
+        nombre: 'Usuario Desconocido',
+        email: 'no-disponible@ejemplo.com',
+        estado: 'offline'
+      };
+    }
+
+    async function cargarDatosDefault() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            id: 'default',
+            nombre: 'Usuario Demo',
+            email: 'demo@ejemplo.com',
+            estado: 'demo'
+          });
+        }, 100);
+      });
+    }
+
+    async function ejecutar() {
+      const userId = document.getElementById('userId').value;
+      const datos = await obtenerDatosConFallback(userId);
+      document.getElementById('resultado').textContent = JSON.stringify(datos, null, 2);
+    }
+  </script>
+</body>
+</html>

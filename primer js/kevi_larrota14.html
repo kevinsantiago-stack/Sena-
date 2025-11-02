@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eliminar Duplicados (JS + CSS)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #dbeafe, #fef9c3);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .contenedor {
+      background: #fff;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 600px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e3a8a;
+      margin-bottom: 20px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 15px;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .resultado {
+      margin-top: 20px;
+      background-color: #f1f5f9;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: monospace;
+      color: #1e293b;
+      white-space: pre-wrap;
+    }
+
+    .nota {
+      text-align: center;
+      color: #64748b;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <h1>Eliminar Duplicados</h1>
+    <p>Presiona el botón para ver los resultados de los tres métodos que eliminan duplicados de arrays y objetos.</p>
+
+    <button onclick="mostrarResultados()">Ejecutar Ejemplos</button>
+
+    <div class="resultado" id="salida">Los resultados aparecerán aquí...</div>
+    
+  </div>
+
+  <script>
+    function eliminarDuplicados1(array) {
+      return [...new Set(array)];
+    }
+
+    function eliminarDuplicados2(array) {
+      return Array.from(new Set(array));
+    }
+
+    
+    function eliminarDuplicadosObjetos(array, propiedad) {
+      const vistos = new Set();
+      return array.filter(item => {
+        const valor = item[propiedad];
+        if (vistos.has(valor)) {
+          return false;
+        }
+        vistos.add(valor);
+        return true;
+      });
+    }
+
+  
+    const numeros = [1, 2, 2, 3, 4, 4, 5];
+    const nombres = ['Ana', 'Juan', 'Ana', 'María', 'Juan'];
+    const usuarios = [
+      { id: 1, nombre: 'Ana' },
+      { id: 2, nombre: 'Juan' },
+      { id: 1, nombre: 'Ana' },
+      { id: 3, nombre: 'María' }
+    ];
+
+    function mostrarResultados() {
+      const salida = document.getElementById('salida');
+      let texto = '';
+
+      texto += 'Método 1 (Spread + Set):\\n';
+      texto += JSON.stringify(eliminarDuplicados1(numeros)) + '\\n\\n';
+
+      texto += 'Método 2 (Array.from + Set):\\n';
+      texto += JSON.stringify(eliminarDuplicados2(nombres)) + '\\n\\n';
+
+      texto += 'Método 3 (Objetos por propiedad id):\\n';
+      texto += JSON.stringify(eliminarDuplicadosObjetos(usuarios, 'id'), null, 2);
+
+      salida.textContent = texto;
+    }
+  </script>
+</body>
+</html>
