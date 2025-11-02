@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificar Edad</title>
+</head>
+<body>
+  <h2>Verificar Edad</h2>
+  <p>Este programa te dirá si eres mayor o menor de edad.</p>
+
+  <button onclick="verificarEdad()">Comenzar</button>
+
+  <script>
+    function verificarEdad() {
+      let edad = parseInt(prompt("Ingrese su edad:"));
+      if (isNaN(edad)) {
+        alert("Por favor, ingrese una edad válida (número).");
+      } else if (edad >= 18) { 
+        alert("Usted es mayor de edad."); 
+      } else {
+        alert("Usted es menor de edad.");
+      }
+    }
+  </script>
+</body>
+</html>
