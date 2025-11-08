@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "gift": "Spotify Premium",
+    "tipo": "Suscripción",
+    "tiempo": "1 mes",
+    "precio": "15.00",
+    "imagen": ""
+  },
+  {
+    "id": 2,
+    "gift": "Netflix",
+    "tipo": "Suscripción",
+    "tiempo": "1 mes",
+    "precio": "12.00",
+    "imagen": ""
+  },
+  {
+    "id": 3,
+    "gift": "Tarjeta Amazon $20",
+    "tipo": "Compra",
+    "tiempo": "-",
+    "precio": "20.00",
+    "imagen": ""
+  }
+]
