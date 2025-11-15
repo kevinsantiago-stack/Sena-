@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formateador de Moneda</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    input, select, button {
+      font-size: 16px;
+      padding: 8px;
+      margin: 5px;
+    }
+    #out4 {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Formateador de Moneda</h1>
+
+  <input type="number" id="precio" placeholder="Cantidad">
+  <select id="moneda">
+    <option value="COP">COP (Peso colombiano)</option>
+    <option value="USD">USD (Dólar)</option>
+    <option value="EUR">EUR (Euro)</option>
+    <option value="JPY">JPY (Yen japonés)</option>
+  </select>
+  <button id="fmt">Formatear</button>
+
+  <div id="out4"></div>
+
+  <script>
+    document.getElementById('fmt').onclick = () => {
+      const valor = Number(document.getElementById('precio').value) || 0;
+      const moneda = document.getElementById('moneda').value;
+
+      const nf = new Intl.NumberFormat('es-ES', {
+        style: 'currency',
+        currency: moneda
+      });
+
+      document.getElementById('out4').textContent = nf.format(valor);
+    };
+  </script>
+
+</body>
+</html>

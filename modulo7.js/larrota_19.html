@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Async vs Promises</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px 0 0;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Async/Await vs Promises</h1>
+
+  <button id="saludar">Saludar Async</button>
+  <button id="promises">Obtener Datos (Promises)</button>
+  <button id="async">Obtener Datos (Async/Await)</button>
+
+  <pre id="salida"></pre>
+
+  <script>
+    async function saludarAsync(nombre) {
+      const saludo = await new Promise(resolve => {
+        setTimeout(() => resolve(`¡Hola, ${nombre}!`), 1000);
+      });
+      return saludo;
+    }
+
+    function obtenerDatosPromises() {
+      return fetch('/api/usuario/1')
+        .then(response => response.json())
+        .then(usuario => {
+          return fetch(`/api/posts/${usuario.id}`);
+        })
+        .then(response => response.json())
+        .then(posts => {
+          console.log('Posts obtenidos:', posts);
+          return posts;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          throw error;
+        });
+    }
+
+    async function obtenerDatosAsync() {
+      try {
+        const response = await fetch('/api/usuario/1');
+        const usuario = await response.json();
+        const postsResponse = await fetch(`/api/posts/${usuario.id}`);
+        const posts = await postsResponse.json();
+        console.log('Posts obtenidos:', posts);
+        return posts;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    }
+
+    const salida = document.getElementById('salida');
+
+    document.getElementById('saludar').onclick = async () => {
+      salida.textContent = 'Esperando saludo...\n';
+      const mensaje = await saludarAsync('Kevin');
+      salida.textContent += mensaje;
+    };
+
+    document.getElementById('promises').onclick = () => {
+      salida.textContent = 'Consultando con Promises...\n';
+      obtenerDatosPromises()
+        .then(posts => {
+          salida.textContent += 'Posts:\n' + JSON.stringify(posts, null, 2);
+        })
+        .catch(error => {
+          salida.textContent += 'Error: ' + error.message;
+        });
+    };
+
+    document.getElementById('async').onclick = async () => {
+      salida.textContent = 'Consultando con async/await...\n';
+      try {
+        const posts = await obtenerDatosAsync();
+        salida.textContent += 'Posts:\n' + JSON.stringify(posts, null, 2);
+      } catch (error) {
+        salida.textContent += 'Error: ' + error.message;
+      }
+    };
+  </script>
+
+</body>
+</html>

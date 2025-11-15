@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Copiar al Portapapeles</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    #copiar-btn {
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Copiar Texto</h1>
+
+  <input type="text" id="texto-fuente" placeholder="Escribe algo para copiar">
+  <button id="copiar-btn">Copiar</button>
+
+  <script>
+    async function copiarTexto(texto, boton) {
+      try {
+        await navigator.clipboard.writeText(texto);
+        const textoOriginal = boton.textContent;
+        boton.textContent = '¡Copiado!';
+        boton.style.backgroundColor = '#4CAF50';
+        setTimeout(() => {
+          boton.textContent = textoOriginal;
+          boton.style.backgroundColor = '';
+        }, 2000);
+      } catch (error) {
+        console.error('Error al copiar:', error);
+        boton.textContent = 'Error al copiar';
+        boton.style.backgroundColor = '#f44336';
+        setTimeout(() => {
+          boton.textContent = 'Copiar';
+          boton.style.backgroundColor = '';
+        }, 2000);
+      }
+    }
+
+    document.getElementById('copiar-btn').onclick = (event) => {
+      const textoACopiar = document.getElementById('texto-fuente').value;
+      copiarTexto(textoACopiar, event.target);
+    };
+  </script>
+
+</body>
+</html>
