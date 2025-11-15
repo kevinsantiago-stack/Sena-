@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Eliminar Duplicados</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Eliminar Duplicados</h1>
+  <pre id="salida"></pre>
+
+  <script>
+    function eliminarDuplicados1(array) {
+      return [...new Set(array)];
+    }
+
+    function eliminarDuplicados2(array) {
+      return Array.from(new Set(array));
+    }
+
+    function eliminarDuplicadosObjetos(array, propiedad) {
+      const vistos = new Set();
+      return array.filter(item => {
+        const valor = item[propiedad];
+        if (vistos.has(valor)) {
+          return false;
+        }
+        vistos.add(valor);
+        return true;
+      });
+    }
+
+    const numeros = [1, 2, 2, 3, 4, 4, 5];
+    const nombres = ['Ana', 'Juan', 'Ana', 'María', 'Juan'];
+    const usuarios = [
+      { id: 1, nombre: 'Ana' },
+      { id: 2, nombre: 'Juan' },
+      { id: 1, nombre: 'Ana' },
+      { id: 3, nombre: 'María' }
+    ];
+
+    const resultados = {
+      numeros: eliminarDuplicados1(numeros),
+      nombres: eliminarDuplicados2(nombres),
+      usuarios: eliminarDuplicadosObjetos(usuarios, 'id')
+    };
+
+    document.getElementById('salida').textContent = JSON.stringify(resultados, null, 2);
+  </script>
+
+</body>
+</html>

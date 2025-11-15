@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo de Fetch API</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px 0 0;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Fetch API: GET y POST</h1>
+
+  <button id="getUsuarios">Obtener Usuarios</button>
+  <button id="crearUsuario">Crear Usuario</button>
+  <button id="utilitario">Usar apiRequest</button>
+
+  <pre id="salida"></pre>
+
+  <script>
+    async function obtenerUsuarios() {
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/users');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const usuarios = await response.json();
+        console.log('Usuarios obtenidos:', usuarios);
+        return usuarios;
+      } catch (error) {
+        console.error('Error al obtener usuarios:', error);
+        throw error;
+      }
+    }
+
+    async function crearUsuario(datosUsuario) {
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer tu-token-aqui'
+          },
+          body: JSON.stringify(datosUsuario)
+        });
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+        const usuarioCreado = await response.json();
+        console.log('Usuario creado:', usuarioCreado);
+        return usuarioCreado;
+      } catch (error) {
+        console.error('Error al crear usuario:', error);
+        throw error;
+      }
+    }
+
+    async function apiRequest(url, options = {}) {
+      const defaultOptions = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      const config = { ...defaultOptions, ...options };
+      try {
+        const response = await fetch(url, config);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          return await response.json();
+        } else {
+          return await response.text();
+        }
+      } catch (error) {
+        console.error('API Request failed:', error);
+        throw error;
+      }
+    }
+
+    const salida = document.getElementById('salida');
+
+    document.getElementById('getUsuarios').onclick = async () => {
+      salida.textContent = 'Consultando usuarios...\n';
+      try {
+        const usuarios = await obtenerUsuarios();
+        salida.textContent += JSON.stringify(usuarios, null, 2);
+      } catch (error) {
+        salida.textContent += 'Error: ' + error.message;
+      }
+    };
+
+    document.getElementById('crearUsuario').onclick = async () => {
+      salida.textContent = 'Creando usuario...\n';
+      const nuevoUsuario = {
+        nombre: 'Kevin',
+        email: 'kevin@ejemplo.com'
+      };
+      try {
+        const creado = await crearUsuario(nuevoUsuario);
+        salida.textContent += JSON.stringify(creado, null, 2);
+      } catch (error) {
+        salida.textContent += 'Error: ' + error.message;
+      }
+    };
+
+    document.getElementById('utilitario').onclick = async () => {
+      salida.textContent = 'Usando apiRequest...\n';
+      try {
+        const resultado = await apiRequest('https://jsonplaceholder.typicode.com/posts/1');
+        salida.textContent += JSON.stringify(resultado, null, 2);
+      } catch (error) {
+        salida.textContent += 'Error: ' + error.message;
+      }
+    };
+  </script>
+
+</body>
+</html>

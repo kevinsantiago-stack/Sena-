@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Contador Interactivo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #count {
+      font-size: 48px;
+      margin: 20px 0;
+      color: #2c3e50;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Contador Interactivo</h1>
+  <div id="count">0</div>
+
+  <button id="mas">+</button>
+  <button id="menos">−</button>
+  <button id="reset">Reiniciar</button>
+
+  <script>
+ 
+    let n = 0;
+
+  
+    const c = document.getElementById('count');
+
+
+    const paint = () => (c.textContent = n);
+
+
+    document.getElementById('mas').onclick = () => {
+      n++; 
+      paint(); 
+    };
+
+    document.getElementById('menos').onclick = () => {
+      n--; 
+      paint(); 
+    };
+
+    document.getElementById('reset').onclick = () => {
+      n = 0; 
+      paint(); 
+    };
+  </script>
+
+</body>
+</html>

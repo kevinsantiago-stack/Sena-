@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sumador Interactivo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 80px;
+      margin: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #res {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Sumador Interactivo</h1>
+
+  <input type="number" id="a" placeholder="Número 1">
+  <input type="number" id="b" placeholder="Número 2">
+  <br>
+  <button id="sumar">Sumar</button>
+
+  <div id="res"></div>
+
+  <script>
+    const a = document.getElementById('a');
+    const b = document.getElementById('b');
+    const res = document.getElementById('res');
+
+    document.getElementById('sumar').onclick = () => {
+      const x = Number(a.value);
+      const y = Number(b.value);
+
+      if (Number.isNaN(x) || Number.isNaN(y)) {
+        res.textContent = 'Ingresa números válidos';
+        return;
+      }
+
+      res.textContent = `${x} + ${y} = ${x + y}`;
+    };
+  </script>
+
+</body>
+</html>

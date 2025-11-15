@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Buscador de Frutas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      margin-bottom: 20px;
+    }
+    #lista {
+      font-size: 20px;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Buscador de Frutas</h1>
+  <input type="text" id="busqueda" placeholder="Escribe para filtrar">
+  <div id="lista"></div>
+
+  <script>
+    const frutas = ['Manzana', 'Plátano', 'Naranja', 'Uva', 'Fresa', 'Kiwi', 'Mango'];
+    const inputBusqueda = document.getElementById('busqueda');
+    const listaContainer = document.getElementById('lista');
+
+    function mostrarFrutas(frutasFiltradas) {
+      listaContainer.innerHTML = frutasFiltradas
+        .map(fruta => `${fruta}`)
+        .join('<br>');
+    }
+
+    inputBusqueda.addEventListener('input', () => {
+      const termino = inputBusqueda.value.toLowerCase();
+      const frutasFiltradas = frutas.filter(fruta =>
+        fruta.toLowerCase().includes(termino)
+      );
+      mostrarFrutas(frutasFiltradas);
+    });
+
+    mostrarFrutas(frutas);
+  </script>
+
+</body>
+</html>
