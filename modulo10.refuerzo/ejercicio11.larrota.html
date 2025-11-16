@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DOM Interactivo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    #mensaje {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #0077cc;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="titulo">¡Hola!</h1>
+  <button id="boton">Haz click</button>
+  <p id="mensaje"></p>
+
+  <script>
+    // Esperar a que el DOM esté listo
+    document.addEventListener("DOMContentLoaded", function() {
+      // Seleccionar elementos
+      let titulo = document.getElementById("titulo");
+      let boton = document.getElementById("boton");
+      let mensaje = document.getElementById("mensaje");
+
+      // Cambiar contenido del título
+      titulo.textContent = "¡JavaScript funciona!";
+
+      // Agregar evento al botón
+      boton.addEventListener("click", function() {
+        mensaje.textContent = "¡Hiciste click!";
+      });
+    });
+  </script>
+</body>
+</html>

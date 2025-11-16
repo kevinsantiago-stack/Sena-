@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Formulario de Registro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 50px auto;
+    }
+    input, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #errores p {
+      margin: 0;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Registro de Usuario</h2>
+
+  <form id="formularioRegistro">
+    <input type="text" id="nombre" placeholder="Nombre completo" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Contraseña" required>
+    <button type="submit">Registrarse</button>
+    <div id="errores"></div>
+  </form>
+
+  <script>
+    document.getElementById("formularioRegistro").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      let nombre = document.getElementById("nombre").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let password = document.getElementById("password").value;
+      let errores = [];
+
+      // Validar nombre
+      if (nombre.length < 2) {
+        errores.push("El nombre debe tener al menos 2 caracteres");
+      }
+
+      // Validar email
+      if (!email.includes("@")) {
+        errores.push("Email inválido");
+      }
+
+      // Validar contraseña
+      if (password.length < 6) {
+        errores.push("La contraseña debe tener al menos 6 caracteres");
+      }
+
+      // Mostrar errores o éxito
+      let divErrores = document.getElementById("errores");
+      if (errores.length > 0) {
+        divErrores.innerHTML = "<p style='color:red'>" + errores.join("<br>") + "</p>";
+      } else {
+        divErrores.innerHTML = "<p style='color:green'>¡Registro exitoso!</p>";
+      }
+    });
+  </script>
+
+</body>
+</html>

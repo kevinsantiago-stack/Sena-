@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manipulación de Estilos y Clases</title>
+  <style>
+    #miCaja {
+      background-color: lightgray;
+      width: 100px;
+      height: 50px;
+      color: black;
+      font-size: 14px;
+      position: relative;
+      left: 0;
+      margin-bottom: 20px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    #miElemento {
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+
+    .activo {
+      background-color: green;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    .grande {
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div id="miCaja">Caja</div>
+  <div id="miElemento">Elemento</div>
+
+  <script>
+    // Manipular estilos directamente
+    let caja = document.getElementById("miCaja");
+    caja.style.backgroundColor = "blue";
+    caja.style.width = "200px";
+    caja.style.height = "100px";
+    caja.style.color = "white";
+    caja.style.fontSize = "20px";
+    caja.style.left = "50px";
+
+    // Manipular clases CSS
+    let elemento = document.getElementById("miElemento");
+    elemento.classList.add("activo");
+    elemento.classList.remove("oculto");
+    elemento.classList.toggle("grande");
+  </script>
+</body>
+</html>

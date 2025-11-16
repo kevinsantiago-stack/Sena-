@@ -1,0 +1,72 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tarjeta de Usuario</title>
+</head>
+<body>
+  <tarjeta-usuario nombre="Ana Pérez" email="ana@example.com" avatar="https://via.placeholder.com/50"></tarjeta-usuario>
+
+  <script>
+    class TarjetaUsuario extends HTMLElement {
+      static get observedAttributes() {
+        return ['nombre', 'email', 'avatar'];
+      }
+
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+
+      connectedCallback() {
+        this.render();
+      }
+
+      attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue !== newValue) {
+          this.render();
+        }
+      }
+
+      render() {
+        const nombre = this.getAttribute('nombre') || 'Usuario';
+        const email = this.getAttribute('email') || 'email@ejemplo.com';
+        const avatar = this.getAttribute('avatar') || 'https://via.placeholder.com/50';
+
+        this.shadowRoot.innerHTML = `
+          <style>
+            .tarjeta {
+              display: flex;
+              align-items: center;
+              border: 1px solid #ccc;
+              border-radius: 8px;
+              padding: 10px;
+              max-width: 300px;
+              font-family: sans-serif;
+            }
+            img {
+              border-radius: 50%;
+              margin-right: 10px;
+            }
+          </style>
+          <div class="tarjeta">
+            <img src="${avatar}" alt="Avatar de ${nombre}" width="50" height="50">
+            <div>
+              <strong>${nombre}</strong><br>
+              <small>${email}</small>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    customElements.define('tarjeta-usuario', TarjetaUsuario);
+
+    // Cambiar atributos dinámicamente después de 3 segundos
+    setTimeout(() => {
+      document.querySelector('tarjeta-usuario').setAttribute('nombre', 'Carlos López');
+    }, 3000);
+  </script>
+</body>
+</html>
