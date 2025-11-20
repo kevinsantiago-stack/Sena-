@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de beneficios</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #30373d;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #ecf0f1;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        li:hover {
+            background: #d0e6f7;
+        }
+
+        .empty {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>beneficios Disponibles</h1>
+        <ul>
+            {% for b in beneficios %}
+                <li>
+                    <strong>Inicio:</strong> {{ b.fecha_inicio }}<br>
+                    <strong>Fin:</strong> {{ b.fecha_fin|default:"Sin fecha" }}<br>
+                    <strong>Activo:</strong> {{ b.activo|yesno:"Sí,No" }}
+                </li>
+            {% empty %}
+                <li class="empty">No hay beneficios registrados.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
