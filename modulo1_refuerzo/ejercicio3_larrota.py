@@ -3,9 +3,9 @@ def main():
     print("=== PROGRAMA INTERACTIVO ===")
     nombre = input("holaa como te llamas?? ")
     apellido = input("dime cual es tu apellido ")
-    edad = int(input("¿Cuántos años tienes? "))
-    altura = float(input("¿Cuál es tu altura en metros? (ej: 1.75) "))
-    peso = float(input("¿Cuál es tu peso en kg? "))
+    edad = int(input("dime cuantos años tienes "))
+    altura = float(input("dime cuanto mides (ej: yo mido 1.75) "))
+    peso = float(input("cuanto pesas? "))
     imc = peso / (altura ** 2)
     año_actual = 2025
     año_nacimiento = año_actual - edad
