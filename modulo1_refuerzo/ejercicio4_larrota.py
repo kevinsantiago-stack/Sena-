@@ -12,7 +12,7 @@ def clasificar_edad(edad):
         return "Adulto mayor"
 
 def main():
-    edad = int(input("Ingresa la edad: "))
+    edad = int(input("ingresa tu edad: "))
     print(clasificar_edad(edad))
 
 if __name__ == '__main__':
