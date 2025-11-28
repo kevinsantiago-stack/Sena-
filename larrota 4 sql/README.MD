@@ -1,4 +1,7 @@
 larrota cuervo kevin santiago 
+
+
+
 CREATE DATABASE base_data_Mendieta;
 
 //2
@@ -48,4 +51,5 @@ SELECT * FROM clientes WHERE activo = TRUE AND fecha_registro > '2024-01-01';
 SELECT * FROM clientes WHERE nombre LIKE '%Juan%' OR nombre LIKE '%María%';
 SELECT * FROM clientes WHERE nombre IN ('Juan Pérez', 'María García', 'Carlos López');
 SELECT * FROM clientes WHERE nombre NOT LIKE '%López%';
+
 
