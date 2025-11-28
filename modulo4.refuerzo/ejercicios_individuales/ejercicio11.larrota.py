@@ -7,7 +7,7 @@ def crear_post(request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request,'Post creado')
+            messages.success(request,'Post bien')
             return redirect('home')
     else:
         form = PostForm()
