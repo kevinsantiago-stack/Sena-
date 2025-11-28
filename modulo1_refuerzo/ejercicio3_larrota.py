@@ -1,8 +1,8 @@
 # kevin santiago larrota cuervo
 def main():
     print("=== PROGRAMA INTERACTIVO ===")
-    nombre = input("¿Cuál es tu nombre? ")
-    apellido = input("¿Cuál es tu apellido? ")
+    nombre = input("holaa como te llamas?? ")
+    apellido = input("dime cual es tu apellido ")
     edad = int(input("¿Cuántos años tienes? "))
     altura = float(input("¿Cuál es tu altura en metros? (ej: 1.75) "))
     peso = float(input("¿Cuál es tu peso en kg? "))
